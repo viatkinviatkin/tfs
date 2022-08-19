@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<witd:WITD application="Work item type editor" version="1.0" xmlns:witd="http://schemas.microsoft.com/VisualStudio/2008/workitemtracking/typedef">
+  <WORKITEMTYPE name="Набор тестов" refname="Microsoft.VSTS.WorkItemTypes.TestSuite">
+    <DESCRIPTION>Отслеживает операции тестирования для определенного компонента, требования или пользовательской Истории.</DESCRIPTION>
+    <FIELDS>
+      <FIELD name="Путь итерации" refname="System.IterationPath" type="TreePath" reportable="dimension">
+        <HELPTEXT>Итерация для этого набора тестов.</HELPTEXT>
+      </FIELD>
+      <FIELD name="Путь к области" refname="System.AreaPath" type="TreePath" reportable="dimension">
+        <HELPTEXT>Часть продукта, связанная с этим набором тестов.</HELPTEXT>
+      </FIELD>
+      <FIELD name="Идентификатор" refname="System.Id" type="Integer" reportable="dimension" />
+      <FIELD name="Название" refname="System.Title" type="String" reportable="dimension">
+        <HELPTEXT>Краткое описание набора тестов.</HELPTEXT>
+        <REQUIRED />
+      </FIELD>
+      <FIELD name="Состояние" refname="System.State" type="String" reportable="dimension">
+        <HELPTEXT>Состояние рабочего процесса набора тестов.</HELPTEXT>
+      </FIELD>
+      <FIELD name="Причина" refname="System.Reason" type="String" reportable="dimension">
+        <HELPTEXT>Причина, по которой набор тестов находится в текущем состоянии.</HELPTEXT>
+      </FIELD>
+      <FIELD name="Кому назначено" refname="System.AssignedTo" type="String" syncnamechanges="true" reportable="dimension">
+        <HELPTEXT>Лицо, которому в настоящее время назначен набор тестов.</HELPTEXT>
+        <ALLOWEXISTINGVALUE />
+        <VALIDUSER />
+      </FIELD>
+      <FIELD name="Описание" refname="System.Description" type="HTML">
+        <HELPTEXT>Назначение этого набора тестов</HELPTEXT>
+      </FIELD>
+      <FIELD name="Журнал" refname="System.History" type="History">
+        <HELPTEXT>Поток дискуссии плюс автоматическая запись изменений</HELPTEXT>
+      </FIELD>
+      <FIELD name="Сборка интеграции" refname="Microsoft.VSTS.Build.IntegrationBuild" type="String" reportable="dimension">
+        <HELPTEXT>Сборка, на основе которой выполнялся набор тестов</HELPTEXT>
+        <SUGGESTEDVALUES expanditems="true">
+          <LISTITEM value="&lt;None&gt;" />
+        </SUGGESTEDVALUES>
+      </FIELD>
+      <FIELD name="Идентификатор типа набора тестов" refname="Microsoft.VSTS.TCM.TestSuiteTypeId" type="Integer">
+        <DEFAULT from="value" value="1" />
+        <REQUIRED />
+        <FROZEN />
+      </FIELD>
+      <FIELD name="Тип набора тестов" refname="Microsoft.VSTS.TCM.TestSuiteType" type="String" reportable="dimension">
+        <HELPTEXT>Определяет категорию набора тестов.</HELPTEXT>
+        <ALLOWEDVALUES>
+          <LISTITEM value="Статический" />
+          <LISTITEM value="На основе запроса" />
+          <LISTITEM value="На основе требования" />
+        </ALLOWEDVALUES>
+        <WHENNOTCHANGED field="Microsoft.VSTS.TCM.TestSuiteTypeId">
+          <READONLY />
+        </WHENNOTCHANGED>
+        <REQUIRED />
+      </FIELD>
+      <FIELD name="Текст запроса" refname="Microsoft.VSTS.TCM.QueryText" type="PlainText">
+        <WHEN field="Microsoft.VSTS.TCM.TestSuiteTypeId" value="2">
+          <REQUIRED />
+        </WHEN>
+      </FIELD>
+      <FIELD name="Аудит набора тестов" refname="Microsoft.VSTS.TCM.TestSuiteAudit" type="PlainText">
+        <HELPTEXT>Собирает данные для журнала аудита набора тестов.</HELPTEXT>
+      </FIELD>
+    </FIELDS>
+    <WORKFLOW>
+      <STATES>
+        <STATE value="Планируется" />
+        <STATE value="Выполняется" />
+        <STATE value="Завершенный" />
+      </STATES>
+      <TRANSITIONS>
+        <TRANSITION from="" to="Выполняется">
+          <REASONS>
+            <DEFAULTREASON value="Создать набор тестов" />
+          </REASONS>
+          <FIELDS>
+            <FIELD refname="Microsoft.VSTS.TCM.TestSuiteType">
+              <WHEN field="Microsoft.VSTS.TCM.TestSuiteTypeId" value="1">
+                <COPY from="value" value="Статический" />
+              </WHEN>
+              <WHEN field="Microsoft.VSTS.TCM.TestSuiteTypeId" value="2">
+                <COPY from="value" value="На основе запроса" />
+              </WHEN>
+              <WHEN field="Microsoft.VSTS.TCM.TestSuiteTypeId" value="3">
+                <COPY from="value" value="На основе требования" />
+              </WHEN>
+            </FIELD>
+          </FIELDS>
+        </TRANSITION>
+        <TRANSITION from="Выполняется" to="Планируется">
+          <REASONS>
+            <DEFAULTREASON value="Планирование тестовых случаев для этого набора тестов" />
+          </REASONS>
+        </TRANSITION>
+        <TRANSITION from="Выполняется" to="Завершенный">
+          <REASONS>
+            <DEFAULTREASON value="Тестирование этого набора тестов завершено" />
+          </REASONS>
+        </TRANSITION>
+        <TRANSITION from="Планируется" to="Выполняется">
+          <REASONS>
+            <DEFAULTREASON value="Тесты в этом наборе тестов теперь активны, и их можно выполнить" />
+          </REASONS>
+        </TRANSITION>
+        <TRANSITION from="Планируется" to="Завершенный">
+          <REASONS>
+            <DEFAULTREASON value="Удалено из планирования и выполнения тестов" />
+          </REASONS>
+        </TRANSITION>
+        <TRANSITION from="Завершенный" to="Выполняется">
+          <REASONS>
+            <DEFAULTREASON value="Повторная активация для выполнения тестов" />
+          </REASONS>
+        </TRANSITION>
+        <TRANSITION from="Завершенный" to="Планируется">
+          <REASONS>
+            <DEFAULTREASON value="Повторная активация фазы планирования" />
+          </REASONS>
+        </TRANSITION>
+      </TRANSITIONS>
+    </WORKFLOW>
+    <FORM>
+      <Layout HideControlBorders="true" HideReadOnlyEmptyFields="true">
+        <Group Margin="(4,0,0,0)">
+          <Column PercentWidth="90">
+            <Control FieldName="System.Title" Type="FieldControl" LabelPosition="Top" ControlFontSize="large" EmptyText="&lt;Введите здесь заголовок&gt;" />
+          </Column>
+          <Column PercentWidth="10">
+            <Control FieldName="System.ID" Type="FieldControl" ControlFontSize="large" />
+          </Column>
+        </Group>
+        <Group Margin="(10,0,0,0)">
+          <Column PercentWidth="50">
+            <Group Label="Статус">
+              <Column PercentWidth="100">
+                <Control FieldName="System.AssignedTo" Type="FieldControl" Label="&amp;Кому назначено" LabelPosition="Left" />
+                <Control FieldName="System.State" Type="FieldControl" Label="&amp;Состояние" LabelPosition="Left" />
+              </Column>
+            </Group>
+          </Column>
+          <Column PercentWidth="50">
+            <Group Label="Классификация">
+              <Column PercentWidth="100">
+                <Control FieldName="System.AreaPath" Type="WorkItemClassificationControl" Label="&amp;Область" LabelPosition="Left" />
+                <Control FieldName="System.IterationPath" Type="WorkItemClassificationControl" Label="Ите&amp;рация" LabelPosition="Left" />
+                <Control FieldName="Microsoft.VSTS.TCM.TestSuiteType" Type="FieldControl" Label="Тип набора тестов" LabelPosition="Left" />
+              </Column>
+            </Group>
+          </Column>
+        </Group>
+        <Group>
+          <Column PercentWidth="100">
+            <TabGroup Margin="(5,0,0,0)">
+              <Tab Label="Сводка">
+                <Group>
+                  <Column PercentWidth="50">
+                    <Control FieldName="System.Description" Type="HtmlFieldControl" Label="Описание" LabelPosition="Top" Dock="Fill" />
+                  </Column>
+                  <Column PercentWidth="50">
+                    <Control FieldName="System.History" Type="WorkItemLogControl" Label="Жур&amp;нал" LabelPosition="Top" Dock="Fill" />
+                  </Column>
+                </Group>
+              </Tab>
+              <Tab Label="Вложения">
+                <Control Type="AttachmentsControl" LabelPosition="Top" />
+              </Tab>
+              <Tab Label="Все ссылки">
+                <Control Type="LinksControl" Name="GeneralLinks" LabelPosition="Top">
+                  <LinksControlOptions>
+                    <LinkColumns>
+                      <LinkColumn RefName="System.Id" />
+                      <LinkColumn RefName="System.WorkItemType" />
+                      <LinkColumn RefName="System.Title" />
+                      <LinkColumn RefName="System.AssignedTo" />
+                      <LinkColumn RefName="System.State" />
+                      <LinkColumn LinkAttribute="System.Links.Comment" />
+                    </LinkColumns>
+                    <WorkItemLinkFilters FilterType="includeAll" />
+                    <ExternalLinkFilters FilterType="includeAll" />
+                    <WorkItemTypeFilters FilterType="includeAll" />
+                  </LinksControlOptions>
+                </Control>
+              </Tab>
+            </TabGroup>
+          </Column>
+        </Group>
+      </Layout>
+      <WebLayout ShowEmptyReadOnlyFields="false">
+        <SystemControls>
+          <Control Type="FieldControl" FieldName="System.Title" EmptyText="&lt;Введите здесь заголовок&gt;" />
+          <Control Label="&amp;Кому назначено" Type="FieldControl" FieldName="System.AssignedTo" />
+          <Control Label="&amp;Состояние" Type="FieldControl" FieldName="System.State" />
+          <Control Label="&amp;Область" Type="WorkItemClassificationControl" FieldName="System.AreaPath" />
+          <Control Label="Ите&amp;рация" Type="WorkItemClassificationControl" FieldName="System.IterationPath" />
+          <Control Label="Жур&amp;нал" Type="WorkItemLogControl" FieldName="System.History" />
+          <Control Label="Вложения" Type="AttachmentsControl" Name="Attachments" />
+          <Control Label="Ссылки" Type="LinksControl" Name="Links" />
+          <Control Label="Причина" Type="FieldControl" FieldName="System.Reason" />
+        </SystemControls>
+        <Page Label="Подробности" LayoutMode="FirstColumnWide">
+          <Section>
+            <Group Label="Описание">
+              <Control Label="Описание" Type="HtmlFieldControl" FieldName="System.Description" />
+            </Group>
+          </Section>
+          <Section>
+            <Group Label="Классификация">
+              <Control Label="Тип набора тестов" Type="FieldControl" FieldName="Microsoft.VSTS.TCM.TestSuiteType" />
+            </Group>
+          </Section>
+          <Section>
+            <Group Label="Разработка">
+              <Control Type="LinksControl" Name="Development">
+                <LinksControlOptions ViewMode="List" ZeroDataExperience="Development" ShowCallToAction="true">
+                  <ListViewOptions GroupLinks="false">
+                  </ListViewOptions>
+                  <LinkFilters>
+                    <ExternalLinkFilter Type="Build" />
+                    <ExternalLinkFilter Type="Integrated in build" />
+                    <ExternalLinkFilter Type="Pull Request" />
+                    <ExternalLinkFilter Type="Branch" />
+                    <ExternalLinkFilter Type="Fixed in Commit" />
+                    <ExternalLinkFilter Type="Fixed in Changeset" />
+                    <ExternalLinkFilter Type="Source Code File" />
+                    <ExternalLinkFilter Type="Found in build" />
+                    <ExternalLinkFilter Type="GitHub Pull Request" />
+                    <ExternalLinkFilter Type="GitHub Commit" />
+                  </LinkFilters>
+                </LinksControlOptions>
+              </Control>
+            </Group>
+            <Group Label="Связанная работа">
+              <Control Type="LinksControl" Name="Related Work">
+                <LinksControlOptions ViewMode="List">
+                  <LinkFilters>
+                    <WorkItemLinkFilter Type="System.LinkTypes.Duplicate-Reverse" />
+                    <WorkItemLinkFilter Type="System.LinkTypes.Hierarchy-Reverse" />
+                    <WorkItemLinkFilter Type="Microsoft.VSTS.Common.TestedBy-Forward" />
+                    <WorkItemLinkFilter Type="Microsoft.VSTS.Common.TestedBy-Reverse" />
+                    <WorkItemLinkFilter Type="System.LinkTypes.Hierarchy-Forward" />
+                    <WorkItemLinkFilter Type="System.LinkTypes.Duplicate-Forward" />
+                    <WorkItemLinkFilter Type="System.LinkTypes.Dependency" />
+                    <WorkItemLinkFilter Type="System.LinkTypes.Related" />
+                    <ExternalLinkFilter Type="GitHub Issue" />
+                  </LinkFilters>
+                  <Columns>
+                    <Column Name="System.State" />
+                    <Column Name="System.ChangedDate" />
+                    <Column Name="System.Links.Comment" />
+                  </Columns>
+                </LinksControlOptions>
+              </Control>
+            </Group>
+          </Section>
+        </Page>
+      </WebLayout>
+    </FORM>
+  </WORKITEMTYPE>
+</witd:WITD>

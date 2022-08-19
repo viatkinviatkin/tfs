@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkItemQuery Version="1">
+  <Wiql>
+    SELECT [System.Id], [System.IterationId],[System.State],
+           [Microsoft.VSTS.Common.Priority], 
+           [System.Title] 
+      FROM WorkItems
+     WHERE [System.TeamProject] = @project 
+       AND [System.WorkItemType] = 'Требование' 
+       AND [System.State] &lt;&gt; 'Закрыто'
+  ORDER BY [System.IterationId], [Microsoft.VSTS.Common.Priority], 
+           [System.Id]
+    </Wiql>
+</WorkItemQuery>

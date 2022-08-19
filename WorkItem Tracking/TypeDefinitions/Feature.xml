@@ -1,0 +1,542 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<witd:WITD application="Work item type editor" version="1.0" xmlns:witd="http://schemas.microsoft.com/VisualStudio/2008/workitemtracking/typedef">
+  <WORKITEMTYPE name="Возможность" refname="Microsoft.VSTS.WorkItemTypes.Feature">
+    <DESCRIPTION>Отслеживание компонента, который будет выпущен с продуктом</DESCRIPTION>
+    <FIELDS>
+      <FIELD name="Идентификатор" refname="System.Id" type="Integer" reportable="dimension" />
+      <FIELD name="Название" refname="System.Title" type="String" reportable="dimension">
+        <REQUIRED />
+        <HELPTEXT>Возможности, которые получит пользователь после реализации</HELPTEXT>
+      </FIELD>
+      <FIELD name="Описание" refname="System.Description" type="HTML">
+        <HELPTEXT>Описание или критерии принятия, в соответствии с которыми компонент рассматривается как выполненный</HELPTEXT>
+      </FIELD>
+      <FIELD name="Кому назначено" refname="System.AssignedTo" type="String" reportable="dimension" syncnamechanges="true">
+        <ALLOWEXISTINGVALUE />
+        <VALIDUSER />
+        <HELPTEXT>Лицо, которое в настоящее время отвечает за компонент</HELPTEXT>
+      </FIELD>
+      <FIELD name="Путь к области" refname="System.AreaPath" type="TreePath" reportable="dimension">
+        <HELPTEXT>Область продукта, с которой связан этот компонент</HELPTEXT>
+      </FIELD>
+      <FIELD name="Путь итерации" refname="System.IterationPath" type="TreePath" reportable="dimension">
+        <HELPTEXT>Итерация, в рамках которой этот компонент будет реализован</HELPTEXT>
+      </FIELD>
+      <FIELD name="Журнал" refname="System.History" type="History">
+        <HELPTEXT>Цепочка обсуждений плюс автоматическая запись изменений</HELPTEXT>
+      </FIELD>
+      <FIELD name="Состояние" refname="System.State" type="String" reportable="dimension">
+        <HELPTEXT>Состояние рабочего процесса функции</HELPTEXT>
+      </FIELD>
+      <FIELD name="Причина" refname="System.Reason" type="String" reportable="dimension">
+        <HELPTEXT>Причина, по которой компонент находится в текущем состоянии</HELPTEXT>
+      </FIELD>
+      <FIELD name="Дата изменения" refname="System.ChangedDate" type="DateTime" reportable="dimension" />
+      <FIELD name="Кем изменено" refname="System.ChangedBy" type="String" reportable="dimension" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Дата создания" refname="System.CreatedDate" type="DateTime" reportable="dimension" />
+      <FIELD name="Кем создано" refname="System.CreatedBy" type="String" reportable="dimension" syncnamechanges="true" />
+      <FIELD name="Дата изменения состояния" refname="Microsoft.VSTS.Common.StateChangeDate" type="DateTime">
+        <WHENCHANGED field="System.State">
+          <SERVERDEFAULT from="clock" />
+        </WHENCHANGED>
+        <WHENNOTCHANGED field="System.State">
+          <READONLY />
+        </WHENNOTCHANGED>
+      </FIELD>
+      <FIELD name="Дата активации" refname="Microsoft.VSTS.Common.ActivatedDate" type="DateTime" reportable="dimension">
+        <WHENNOTCHANGED field="System.State">
+          <READONLY />
+        </WHENNOTCHANGED>
+      </FIELD>
+      <FIELD name="Кем активировано" refname="Microsoft.VSTS.Common.ActivatedBy" type="String" syncnamechanges="true" reportable="dimension">
+        <WHENNOTCHANGED field="System.State">
+          <READONLY />
+        </WHENNOTCHANGED>
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Дата разрешения" refname="Microsoft.VSTS.Common.ResolvedDate" type="DateTime" reportable="dimension">
+        <WHENNOTCHANGED field="System.State">
+          <READONLY />
+        </WHENNOTCHANGED>
+      </FIELD>
+      <FIELD name="Кем разрешено" refname="Microsoft.VSTS.Common.ResolvedBy" type="String" syncnamechanges="true" reportable="dimension">
+        <WHENNOTCHANGED field="System.State">
+          <READONLY />
+        </WHENNOTCHANGED>
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Разрешенная причина" refname="Microsoft.VSTS.Common.ResolvedReason" type="String" reportable="dimension" />
+      <FIELD name="Дата закрытия" refname="Microsoft.VSTS.Common.ClosedDate" type="DateTime" reportable="dimension">
+        <WHENNOTCHANGED field="System.State">
+          <READONLY />
+        </WHENNOTCHANGED>
+      </FIELD>
+      <FIELD name="Кем закрыто" refname="Microsoft.VSTS.Common.ClosedBy" type="String" syncnamechanges="true" reportable="dimension">
+        <WHENNOTCHANGED field="System.State">
+          <READONLY />
+        </WHENNOTCHANGED>
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Приоритет" refname="Microsoft.VSTS.Common.Priority" type="Integer" reportable="dimension">
+        <REQUIRED />
+        <ALLOWEDVALUES>
+          <LISTITEM value="1" />
+          <LISTITEM value="2" />
+          <LISTITEM value="3" />
+          <LISTITEM value="4" />
+        </ALLOWEDVALUES>
+        <DEFAULT from="value" value="2" />
+        <HELPTEXT>Приоритет для выполнения компонента, с учетом целей бизнеса</HELPTEXT>
+      </FIELD>
+      <FIELD name="Рассмотрение" refname="Microsoft.VSTS.Common.Triage" type="String" reportable="dimension">
+        <REQUIRED />
+        <ALLOWEDVALUES>
+          <LISTITEM value="Ожидание" />
+          <LISTITEM value="Подробнее" />
+          <LISTITEM value="Сведения получены" />
+          <LISTITEM value="Рассмотрено" />
+        </ALLOWEDVALUES>
+        <DEFAULT from="value" value="Ожидание" />
+        <HELPTEXT>Состояние рассмотрения компонента</HELPTEXT>
+      </FIELD>
+      <FIELD name="Ранг стека" refname="Microsoft.VSTS.Common.StackRank" type="Double" reportable="dimension">
+        <HELPTEXT>Сначала обработайте элементы с меньшим значением ранга стека. Установить в рассмотрении.</HELPTEXT>
+      </FIELD>
+      <FIELD name="Целевая дата" refname="Microsoft.VSTS.Scheduling.TargetDate" type="DateTime" reportable="dimension">
+        <HELPTEXT>Целевая дата выполнения компонента</HELPTEXT>
+      </FIELD>
+      <FIELD name="Ценность для бизнеса" refname="Microsoft.VSTS.Common.BusinessValue" type="Integer" reportable="measure" formula="sum">
+        <HELPTEXT>Ценность для бизнеса клиента, создаваемая выпуском компонента</HELPTEXT>
+      </FIELD>
+      <FIELD name="Критичность по времени" refname="Microsoft.VSTS.Common.TimeCriticality" type="Double">
+        <HELPTEXT>Как снижается бизнес-ценность со временем. Более высокие значения означают, что ситуация является более критичной по времени</HELPTEXT>
+      </FIELD>
+      <FIELD name="Трудозатраты" refname="Microsoft.VSTS.Scheduling.Effort" type="Double" reportable="measure" formula="sum">
+        <HELPTEXT>Предварительные трудозатраты по реализации ситуации</HELPTEXT>
+      </FIELD>
+      <FIELD name="Область значений" refname="Microsoft.VSTS.Common.ValueArea" type="String">
+        <REQUIRED />
+        <ALLOWEDVALUES>
+          <LISTITEM value="Архитектурный" />
+          <LISTITEM value="Бизнес" />
+        </ALLOWEDVALUES>
+        <DEFAULT from="value" value="Бизнес" />
+        <HELPTEXT>Бизнес = службы, предоставляемые системой для выполнения требований заинтересованных лиц; Архитектурный = технические системные службы для реализации бизнес-функций, которые предоставляют ценность решения</HELPTEXT>
+      </FIELD>
+      <!-- **************** Team Build Integration Fields **************  -->
+      <FIELD name="Сборка интеграции" refname="Microsoft.VSTS.Build.IntegrationBuild" type="String" reportable="dimension">
+        <SUGGESTEDVALUES>
+          <LISTITEM value="&lt;Нет&gt;" />
+        </SUGGESTEDVALUES>
+        <HELPTEXT>Сборка, в которой компонент был исправлен</HELPTEXT>
+      </FIELD>
+    </FIELDS>
+    <WORKFLOW>
+      <STATES>
+        <STATE value="Предложено">
+          <FIELDS>
+            <FIELD refname="Microsoft.VSTS.Common.ResolvedDate">
+              <EMPTY />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ResolvedBy">
+              <EMPTY />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedDate">
+              <EMPTY />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedBy">
+              <EMPTY />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ActivatedDate">
+              <EMPTY />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ActivatedBy">
+              <EMPTY />
+            </FIELD>
+            <FIELD refname="System.AssignedTo">
+              <REQUIRED />
+            </FIELD>
+          </FIELDS>
+        </STATE>
+        <STATE value="Активно">
+          <FIELDS>
+            <FIELD refname="Microsoft.VSTS.Common.ResolvedDate">
+              <EMPTY />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ResolvedBy">
+              <EMPTY />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ResolvedReason">
+              <EMPTY />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedDate">
+              <EMPTY />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedBy">
+              <EMPTY />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ActivatedDate">
+              <REQUIRED />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ActivatedBy">
+              <REQUIRED />
+            </FIELD>
+            <FIELD refname="System.AssignedTo">
+              <REQUIRED />
+            </FIELD>
+          </FIELDS>
+        </STATE>
+        <STATE value="Выполнено">
+          <FIELDS>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedDate">
+              <EMPTY />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedBy">
+              <EMPTY />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ResolvedReason">
+              <COPY from="field" field="System.Reason" />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ResolvedDate">
+              <REQUIRED />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ResolvedBy">
+              <REQUIRED />
+            </FIELD>
+            <FIELD refname="System.AssignedTo">
+              <REQUIRED />
+            </FIELD>
+          </FIELDS>
+        </STATE>
+        <STATE value="Закрыто">
+          <FIELDS>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedBy">
+              <REQUIRED />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedDate">
+              <REQUIRED />
+            </FIELD>
+          </FIELDS>
+        </STATE>
+      </STATES>
+      <TRANSITIONS>
+        <TRANSITION from="" to="Предложено">
+          <REASONS>
+            <DEFAULTREASON value="Новый" />
+          </REASONS>
+          <FIELDS>
+            <FIELD refname="System.AssignedTo">
+              <DEFAULT from="currentuser" />
+            </FIELD>
+          </FIELDS>
+        </TRANSITION>
+        <TRANSITION from="Предложено" to="Активно">
+          <REASONS>
+            <DEFAULTREASON value="Принято" />
+            <REASON value="Исследовать" />
+          </REASONS>
+          <FIELDS>
+            <FIELD refname="Microsoft.VSTS.Common.ActivatedDate">
+              <SERVERDEFAULT from="clock" />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ActivatedBy">
+              <COPY from="currentuser" />
+              <VALIDUSER />
+            </FIELD>
+          </FIELDS>
+        </TRANSITION>
+        <TRANSITION from="Активно" to="Предложено">
+          <REASONS>
+            <DEFAULTREASON value="Исследование завершено" />
+            <REASON value="Отложено" />
+          </REASONS>
+        </TRANSITION>
+        <TRANSITION from="Активно" to="Выполнено">
+          <REASONS>
+            <DEFAULTREASON value="Требования выполнены" />
+          </REASONS>
+          <FIELDS>
+            <FIELD refname="Microsoft.VSTS.Common.ResolvedDate">
+              <SERVERDEFAULT from="clock" />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ResolvedBy">
+              <COPY from="currentuser" />
+              <VALIDUSER />
+            </FIELD>
+          </FIELDS>
+        </TRANSITION>
+        <TRANSITION from="Активно" to="Закрыто">
+          <REASONS>
+            <REASON value="Отброшены" />
+            <REASON value="Вне области" />
+            <DEFAULTREASON value="Разделить" />
+          </REASONS>
+          <FIELDS>
+            <FIELD refname="Microsoft.VSTS.Common.ResolvedDate">
+              <SERVERDEFAULT from="clock" />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ResolvedBy">
+              <SERVERDEFAULT from="currentuser" />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedDate">
+              <SERVERDEFAULT from="clock" />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedBy">
+              <COPY from="currentuser" />
+              <VALIDUSER />
+            </FIELD>
+          </FIELDS>
+        </TRANSITION>
+        <TRANSITION from="Выполнено" to="Активно">
+          <REASONS>
+            <DEFAULTREASON value="Тесты приемки не пройдены" />
+          </REASONS>
+          <FIELDS>
+            <FIELD refname="Microsoft.VSTS.Common.ActivatedBy">
+              <COPY from="currentuser" />
+              <VALIDUSER />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ActivatedDate">
+              <SERVERDEFAULT from="clock" />
+            </FIELD>
+          </FIELDS>
+        </TRANSITION>
+        <TRANSITION from="Выполнено" to="Закрыто">
+          <REASONS>
+            <DEFAULTREASON value="Тесты приемки пройдены" />
+          </REASONS>
+          <FIELDS>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedDate">
+              <SERVERDEFAULT from="clock" />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedBy">
+              <COPY from="currentuser" />
+              <VALIDUSER />
+            </FIELD>
+          </FIELDS>
+        </TRANSITION>
+        <TRANSITION from="Предложено" to="Закрыто">
+          <REASONS>
+            <DEFAULTREASON value="Отклонено" />
+          </REASONS>
+          <FIELDS>
+            <FIELD refname="Microsoft.VSTS.Common.ActivatedDate">
+              <SERVERDEFAULT from="clock" />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ActivatedBy">
+              <SERVERDEFAULT from="currentuser" />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ResolvedDate">
+              <SERVERDEFAULT from="clock" />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ResolvedBy">
+              <SERVERDEFAULT from="currentuser" />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedDate">
+              <SERVERDEFAULT from="clock" />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedBy">
+              <COPY from="currentuser" />
+              <VALIDUSER />
+            </FIELD>
+          </FIELDS>
+        </TRANSITION>
+        <TRANSITION from="Закрыто" to="Активно">
+          <REASONS>
+            <REASON value="Заново введено в области" />
+            <DEFAULTREASON value="Закрыто по ошибке" />
+          </REASONS>
+          <FIELDS>
+            <FIELD refname="Microsoft.VSTS.Common.ActivatedBy">
+              <COPY from="currentuser" />
+              <VALIDUSER />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ActivatedDate">
+              <SERVERDEFAULT from="clock" />
+            </FIELD>
+            <FIELD refname="System.AssignedTo">
+              <COPY from="field" field="Microsoft.VSTS.Common.ClosedBy" />
+            </FIELD>
+          </FIELDS>
+        </TRANSITION>
+      </TRANSITIONS>
+    </WORKFLOW>
+    <FORM>
+      <Layout HideReadOnlyEmptyFields="true" HideControlBorders="true">
+        <Group Margin="(0,0,0,5)">
+          <Column PercentWidth="90">
+            <Control FieldName="System.Title" Type="FieldControl" ControlFontSize="large" EmptyText="&lt;Введите здесь заголовок&gt;" />
+          </Column>
+          <Column PercentWidth="10">
+            <Control FieldName="System.ID" Type="FieldControl" ControlFontSize="large" />
+          </Column>
+        </Group>
+        <Group>
+          <Column PercentWidth="70">
+            <TabGroup>
+              <Tab Label="Описание">
+                <Control FieldName="System.Description" Type="HtmlFieldControl" Dock="Fill" />
+              </Tab>
+              <Tab Label="Требования">
+                <Control Type="LinksControl" Name="Hierarchy">
+                  <LinksControlOptions>
+                    <WorkItemLinkFilters FilterType="include">
+                      <Filter LinkType="System.LinkTypes.Hierarchy" />
+                    </WorkItemLinkFilters>
+                    <WorkItemTypeFilters FilterType="include">
+                      <Filter WorkItemType="Требование" />
+                    </WorkItemTypeFilters>
+                    <ExternalLinkFilters FilterType="excludeAll" />
+                    <LinkColumns>
+                      <LinkColumn RefName="System.ID" />
+                      <LinkColumn RefName="System.Title" />
+                      <LinkColumn RefName="System.AssignedTo" />
+                      <LinkColumn RefName="System.State" />
+                      <LinkColumn LinkAttribute="System.Links.Comment" />
+                    </LinkColumns>
+                  </LinksControlOptions>
+                </Control>
+              </Tab>
+              <Tab Label="Все ссылки">
+                <Control Type="LinksControl" Name="GeneralLinks" LabelPosition="Top">
+                  <LinksControlOptions>
+                    <LinkColumns>
+                      <LinkColumn RefName="System.ID" />
+                      <LinkColumn RefName="System.WorkItemType" />
+                      <LinkColumn RefName="System.Title" />
+                      <LinkColumn RefName="System.AssignedTo" />
+                      <LinkColumn RefName="System.State" />
+                      <LinkColumn LinkAttribute="System.Links.Comment" />
+                    </LinkColumns>
+                    <WorkItemLinkFilters FilterType="includeAll" />
+                    <ExternalLinkFilters FilterType="includeAll" />
+                    <WorkItemTypeFilters FilterType="includeAll" />
+                  </LinksControlOptions>
+                </Control>
+              </Tab>
+              <Tab Label="Вложения">
+                <Control Type="AttachmentsControl" LabelPosition="Top" />
+              </Tab>
+              <Tab Label="Журнал">
+                <Control FieldName="System.History" Type="WorkItemLogControl" Dock="Fill" />
+              </Tab>
+            </TabGroup>
+          </Column>
+          <Column PercentWidth="30">
+            <Group Margin="(5,0,0,0)">
+              <Column PercentWidth="100">
+                <Group Label="Статус">
+                  <Column PercentWidth="100">
+                    <Control FieldName="System.AssignedTo" EmptyText="&lt;Никто&gt;" Type="FieldControl" Label="&amp;Кому назначено" LabelPosition="Left" />
+                    <Control FieldName="System.State" Type="FieldControl" Label="&amp;Состояние" LabelPosition="Left" />
+                    <Control FieldName="System.Reason" Type="FieldControl" Label="Причина" LabelPosition="Left" />
+                  </Column>
+                </Group>
+                <Group Label="Планирование">
+                  <Column PercentWidth="100">
+                    <Control FieldName="Microsoft.VSTS.Common.Priority" Type="FieldControl" Label="Приоритет" LabelPosition="Left" />
+                    <Control FieldName="Microsoft.VSTS.Common.Triage" Type="FieldControl" Label="Рассмотрение" LabelPosition="Left" />
+                    <Control FieldName="Microsoft.VSTS.Scheduling.Effort" Type="FieldControl" Label="Трудозатраты" LabelPosition="Left" />
+                    <Control FieldName="Microsoft.VSTS.Common.BusinessValue" Type="FieldControl" Label="Ценность для бизнеса" LabelPosition="Left" />
+                    <Control FieldName="Microsoft.VSTS.Common.TimeCriticality" Type="FieldControl" Label="Критичность по времени" LabelPosition="Left" />
+                    <Control FieldName="Microsoft.VSTS.Scheduling.TargetDate" Type="DateTimeControl" Label="Целевая дата" LabelPosition="Left" />
+                  </Column>
+                </Group>
+                <Group Label="Классификация">
+                  <Column PercentWidth="100">
+                    <Control FieldName="System.AreaPath" Type="WorkItemClassificationControl" Label="&amp;Область" LabelPosition="Left" />
+                    <Control FieldName="System.IterationPath" Type="WorkItemClassificationControl" Label="Ите&amp;рация" LabelPosition="Left" />
+                    <Control FieldName="Microsoft.VSTS.Common.ValueArea" Type="FieldControl" Label="Область значений" LabelPosition="Left" />
+                  </Column>
+                </Group>
+              </Column>
+            </Group>
+          </Column>
+        </Group>
+      </Layout>
+      <WebLayout ShowEmptyReadOnlyFields="false">
+        <SystemControls>
+          <Control Type="FieldControl" FieldName="System.Title" EmptyText="&lt;Введите здесь заголовок&gt;" />
+          <Control Label="&amp;Кому назначено" Type="FieldControl" FieldName="System.AssignedTo" EmptyText="&lt;Никто&gt;" />
+          <Control Label="&amp;Состояние" Type="FieldControl" FieldName="System.State" />
+          <Control Label="Причина" Type="FieldControl" FieldName="System.Reason" />
+          <Control Label="&amp;Область" Type="WorkItemClassificationControl" FieldName="System.AreaPath" />
+          <Control Label="Ите&amp;рация" Type="WorkItemClassificationControl" FieldName="System.IterationPath" />
+          <Control Label="Ссылки" Type="LinksControl" Name="Links" />
+          <Control Label="Вложения" Type="AttachmentsControl" Name="Attachments" />
+          <Control Label="История" Type="WorkItemLogControl" FieldName="System.History" />
+        </SystemControls>
+        <Page Label="Подробности" LayoutMode="FirstColumnWide">
+          <Section>
+            <Group Label="Описание">
+              <Control Type="HtmlFieldControl" FieldName="System.Description" />
+            </Group>
+          </Section>
+          <Section>
+            <Group Label="Статус">
+              <Control Label="Причина" Type="FieldControl" FieldName="System.Reason" />
+            </Group>
+            <Group Label="Классификация">
+              <Control Label="Область значений" Type="FieldControl" FieldName="Microsoft.VSTS.Common.ValueArea" />
+            </Group>
+          </Section>
+          <Section>
+            <Group Label="Разработка">
+              <Control Type="LinksControl" Name="Development">
+                <LinksControlOptions ViewMode="List" ZeroDataExperience="Development" ShowCallToAction="true">
+                  <ListViewOptions GroupLinks="false">
+                  </ListViewOptions>
+                  <LinkFilters>
+                    <ExternalLinkFilter Type="Build" />
+                    <ExternalLinkFilter Type="Integrated in build" />
+                    <ExternalLinkFilter Type="Pull Request" />
+                    <ExternalLinkFilter Type="Branch" />
+                    <ExternalLinkFilter Type="Fixed in Commit" />
+                    <ExternalLinkFilter Type="Fixed in Changeset" />
+                    <ExternalLinkFilter Type="Source Code File" />
+                    <ExternalLinkFilter Type="Found in build" />
+                    <ExternalLinkFilter Type="GitHub Pull Request" />
+                    <ExternalLinkFilter Type="GitHub Commit" />
+                  </LinkFilters>
+                </LinksControlOptions>
+              </Control>
+            </Group>
+            <Group Label="Связанная работа">
+              <Control Type="LinksControl" Name="Related Work">
+                <LinksControlOptions ViewMode="List">
+                  <LinkFilters>
+                    <WorkItemLinkFilter Type="System.LinkTypes.Duplicate-Reverse" />
+                    <WorkItemLinkFilter Type="System.LinkTypes.Hierarchy-Reverse" />
+                    <WorkItemLinkFilter Type="Microsoft.VSTS.Common.TestedBy-Forward" />
+                    <WorkItemLinkFilter Type="Microsoft.VSTS.Common.TestedBy-Reverse" />
+                    <WorkItemLinkFilter Type="System.LinkTypes.Hierarchy-Forward" />
+                    <WorkItemLinkFilter Type="System.LinkTypes.Duplicate-Forward" />
+                    <WorkItemLinkFilter Type="System.LinkTypes.Dependency" />
+                    <WorkItemLinkFilter Type="System.LinkTypes.Related" />
+                    <ExternalLinkFilter Type="GitHub Issue" />
+                  </LinkFilters>
+                  <Columns>
+                    <Column Name="System.State" />
+                    <Column Name="System.ChangedDate" />
+                    <Column Name="System.Links.Comment" />
+                  </Columns>
+                </LinksControlOptions>
+              </Control>
+            </Group>
+            <Group Label="Планирование">
+              <Control Label="Приоритет" Type="FieldControl" FieldName="Microsoft.VSTS.Common.Priority" />
+              <Control Label="Рассмотрение" Type="FieldControl" FieldName="Microsoft.VSTS.Common.Triage" />
+              <Control Label="Трудозатраты" Type="FieldControl" FieldName="Microsoft.VSTS.Scheduling.Effort" />
+              <Control Label="Ценность для бизнеса" Type="FieldControl" FieldName="Microsoft.VSTS.Common.BusinessValue" />
+              <Control Label="Критичность по времени" Type="FieldControl" FieldName="Microsoft.VSTS.Common.TimeCriticality" />
+              <Control Label="Целевая дата" Type="DateTimeControl" FieldName="Microsoft.VSTS.Scheduling.TargetDate" />
+            </Group>
+          </Section>
+        </Page>
+      </WebLayout>
+    </FORM>
+  </WORKITEMTYPE>
+</witd:WITD>

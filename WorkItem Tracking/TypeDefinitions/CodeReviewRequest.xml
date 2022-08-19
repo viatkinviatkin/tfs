@@ -1,0 +1,371 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<witd:WITD application="Work item type editor" version="1.0" xmlns:witd="http://schemas.microsoft.com/VisualStudio/2008/workitemtracking/typedef">
+  <WORKITEMTYPE name="Запрос на проверку кода" refname="Microsoft.VSTS.WorkItemTypes.CodeReviewRequest">
+    <DESCRIPTION>Представляет основной рабочий элемент для проверки кода. Дочерние рабочие элементы должны принадлежать к типу Code Review Response.</DESCRIPTION>
+    <FIELDS>
+      <!-- ********** Core fields ******************* -->
+      <FIELD name="Идентификатор" refname="System.Id" type="Integer" reportable="dimension" />
+      <FIELD name="Название" refname="System.Title" type="String" reportable="dimension">
+        <REQUIRED />
+      </FIELD>
+      <FIELD name="Кому назначено" refname="System.AssignedTo" type="String" reportable="dimension" syncnamechanges="true">
+        <ALLOWEXISTINGVALUE />
+        <VALIDUSER />
+      </FIELD>
+      <FIELD name="Дата создания" refname="System.CreatedDate" type="DateTime" reportable="dimension" />
+      <FIELD name="Кем создано" refname="System.CreatedBy" type="String" reportable="dimension" syncnamechanges="true" />
+      <FIELD name="Дата изменения" refname="System.ChangedDate" type="DateTime" reportable="dimension" />
+      <FIELD name="Кем изменено" refname="System.ChangedBy" type="String" reportable="dimension" syncnamechanges="true" />
+      <FIELD name="Дата закрытия" refname="Microsoft.VSTS.Common.ClosedDate" type="DateTime" reportable="dimension" />
+      <FIELD name="Кем закрыто" refname="Microsoft.VSTS.Common.ClosedBy" type="String" reportable="dimension" syncnamechanges="true">
+        <ALLOWEXISTINGVALUE />
+        <VALIDUSER />
+      </FIELD>
+      <FIELD name="Состояние" refname="System.State" type="String" reportable="dimension" />
+      <FIELD name="Причина" refname="System.Reason" type="String" reportable="dimension" />
+      <FIELD name="Журнал" refname="System.History" type="History" />
+      <FIELD name="Путь к области" refname="System.AreaPath" type="TreePath" reportable="dimension" />
+      <FIELD name="Путь итерации" refname="System.IterationPath" type="TreePath" reportable="dimension" />
+      <FIELD name="Итоговый комментарий" refname="Microsoft.VSTS.CodeReview.ClosingComment" type="String" />
+      <FIELD name="Код связанного контекста" refname="Microsoft.VSTS.CodeReview.ContextCode" type="Integer">
+        <WHEN field="Microsoft.VSTS.CodeReview.ContextType" value="Набор отложенных изменений">
+          <COPY from="value" value="1" />
+        </WHEN>
+        <WHEN field="Microsoft.VSTS.CodeReview.ContextType" value="Набор изменений">
+          <COPY from="value" value="2" />
+        </WHEN>
+      </FIELD>
+      <FIELD name="Тип связанного контекста" refname="Microsoft.VSTS.CodeReview.ContextType" type="String">
+        <WHEN field="Microsoft.VSTS.CodeReview.ContextCode" value="1">
+          <COPY from="value" value="Набор отложенных изменений" />
+        </WHEN>
+        <WHEN field="Microsoft.VSTS.CodeReview.ContextCode" value="2">
+          <COPY from="value" value="Набор изменений" />
+        </WHEN>
+        <ALLOWEDVALUES>
+          <LISTITEM value="Набор отложенных изменений" />
+          <LISTITEM value="Набор изменений" />
+        </ALLOWEDVALUES>
+        <DEFAULT from="value" value="Набор отложенных изменений" />
+      </FIELD>
+      <FIELD name="Связанный контекст" refname="Microsoft.VSTS.CodeReview.Context" type="String">
+        <REQUIRED />
+      </FIELD>
+      <FIELD name="Владелец связанного контекста" refname="Microsoft.VSTS.CodeReview.ContextOwner" type="String" />
+      <FIELD name="Код закрытого состояния" refname="Microsoft.VSTS.CodeReview.ClosedStatusCode" type="Integer">
+        <WHEN field="Microsoft.VSTS.CodeReview.ClosedStatus" value="">
+          <COPY from="value" value="0" />
+        </WHEN>
+        <WHEN field="Microsoft.VSTS.CodeReview.ClosedStatus" value="Отброшены">
+          <COPY from="value" value="1" />
+        </WHEN>
+        <WHEN field="Microsoft.VSTS.CodeReview.ClosedStatus" value="Возвращено">
+          <COPY from="value" value="2" />
+        </WHEN>
+        <WHEN field="Microsoft.VSTS.CodeReview.ClosedStatus" value="Завершенный">
+          <COPY from="value" value="3" />
+        </WHEN>
+        <ALLOWEDVALUES expanditems="true">
+          <LISTITEM value="0" />
+          <LISTITEM value="1" />
+          <LISTITEM value="2" />
+          <LISTITEM value="3" />
+        </ALLOWEDVALUES>
+        <DEFAULT from="value" value="0" />
+      </FIELD>
+      <FIELD name="Закрытое состояние" refname="Microsoft.VSTS.CodeReview.ClosedStatus" type="String" reportable="dimension">
+        <WHEN field="Microsoft.VSTS.CodeReview.ClosedStatusCode" value="0">
+          <COPY from="value" value="" />
+        </WHEN>
+        <WHEN field="Microsoft.VSTS.CodeReview.ClosedStatusCode" value="1">
+          <COPY from="value" value="Отброшены" />
+        </WHEN>
+        <WHEN field="Microsoft.VSTS.CodeReview.ClosedStatusCode" value="2">
+          <COPY from="value" value="Возвращено" />
+        </WHEN>
+        <WHEN field="Microsoft.VSTS.CodeReview.ClosedStatusCode" value="3">
+          <COPY from="value" value="Завершенный" />
+        </WHEN>
+        <ALLOWEDVALUES>
+          <LISTITEM value="Отброшены" />
+          <LISTITEM value="Возвращено" />
+          <LISTITEM value="Завершенный" />
+        </ALLOWEDVALUES>
+      </FIELD>
+      <!-- **************** Team Build Integration Fields **************  -->
+      <FIELD name="Сборка интеграции" refname="Microsoft.VSTS.Build.IntegrationBuild" type="String" reportable="dimension">
+        <HELPTEXT>Сборка, в которой ошибка была исправлена</HELPTEXT>
+        <SUGGESTEDVALUES>
+          <LISTITEM value="&lt;Нет&gt;" />
+        </SUGGESTEDVALUES>
+      </FIELD>
+      <!-- **************** Mirror field to determine the current state in code -->
+      <FIELD name="Код состояния" refname="Microsoft.VSTS.Common.StateCode" type="Integer">
+        <WHEN field="System.State" value="Запрашивается">
+          <COPY from="value" value="0" />
+        </WHEN>
+        <WHEN field="System.State" value="Закрыто">
+          <COPY from="value" value="1" />
+        </WHEN>
+        <ALLOWEDVALUES expanditems="true">
+          <LISTITEM value="0" />
+          <LISTITEM value="1" />
+        </ALLOWEDVALUES>
+        <DEFAULT from="value" value="0" />
+      </FIELD>
+    </FIELDS>
+    <!-- *************** Workflow ****************   -->
+    <WORKFLOW>
+      <STATES>
+        <STATE value="Запрашивается">
+          <FIELDS>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedDate">
+              <EMPTY />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedBy">
+              <EMPTY />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.CodeReview.ClosingComment">
+              <EMPTY />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.CodeReview.ClosedStatus">
+              <EMPTY />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.CodeReview.ClosedStatusCode">
+              <READONLY />
+            </FIELD>
+          </FIELDS>
+        </STATE>
+        <STATE value="Закрыто">
+          <FIELDS>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedBy">
+              <REQUIRED />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedDate">
+              <REQUIRED />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.CodeReview.ClosedStatus">
+              <REQUIRED />
+            </FIELD>
+          </FIELDS>
+        </STATE>
+      </STATES>
+      <TRANSITIONS>
+        <TRANSITION from="" to="Запрашивается">
+          <REASONS>
+            <DEFAULTREASON value="Новый" />
+          </REASONS>
+          <FIELDS>
+            <FIELD refname="System.AssignedTo">
+              <COPY from="currentuser" />
+              <VALIDUSER />
+            </FIELD>
+          </FIELDS>
+        </TRANSITION>
+        <TRANSITION from="Запрашивается" to="Закрыто">
+          <ACTIONS>
+            <ACTION value="Microsoft.VSTS.Actions.Checkin" />
+            <ACTION value="Microsoft.VSTS.CodeReview.Abandon" />
+          </ACTIONS>
+          <REASONS>
+            <DEFAULTREASON value="Закрыто" />
+          </REASONS>
+          <FIELDS>
+            <!-- Set the closing date -->
+            <FIELD refname="Microsoft.VSTS.Common.ClosedDate">
+              <SERVERDEFAULT from="clock" />
+            </FIELD>
+            <!-- Set the closing person -->
+            <FIELD refname="Microsoft.VSTS.Common.ClosedBy">
+              <COPY from="currentuser" />
+              <VALIDUSER />
+            </FIELD>
+            <!-- Unassign the workitem -->
+            <FIELD refname="System.AssignedTo">
+              <COPY from="value" value="" />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.CodeReview.ClosedStatusCode">
+              <COPY from="value" value="2" />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.CodeReview.ClosedStatus">
+              <COPY from="value" value="Возвращено" />
+            </FIELD>
+          </FIELDS>
+        </TRANSITION>
+      </TRANSITIONS>
+    </WORKFLOW>
+    <FORM>
+      <Layout HideControlBorders="true">
+        <Group>
+          <Column PercentWidth="90">
+            <Control ReadOnly="True" Type="FieldControl" FieldName="System.Title" ControlFontSize="large" EmptyText="&lt;Введите здесь заголовок&gt;" />
+          </Column>
+          <Column PercentWidth="10">
+            <Control FieldName="System.ID" Type="FieldControl" ControlFontSize="large" />
+          </Column>
+        </Group>
+        <Group Margin="(5,0,0,0)">
+          <Column PercentWidth="50">
+            <Group Label="Сведения">
+              <Column PercentWidth="100">
+                <Control ReadOnly="True" Type="FieldControl" FieldName="System.AssignedTo" Label="&amp;Кому назначено" LabelPosition="Left" EmptyText="&lt;Никто&gt;" />
+                <Control ReadOnly="True" Type="FieldControl" FieldName="Microsoft.VSTS.CodeReview.ContextType" Label="Тип связанного контекста" LabelPosition="Left" />
+                <Control ReadOnly="True" Type="FieldControl" FieldName="Microsoft.VSTS.CodeReview.Context" Label="Связанный контекст" LabelPosition="Left" />
+                <Control ReadOnly="True" Type="FieldControl" FieldName="Microsoft.VSTS.CodeReview.ContextOwner" Label="Владелец связанного контекста" LabelPosition="Left" />
+              </Column>
+            </Group>
+          </Column>
+          <Column PercentWidth="50">
+            <Group Label="Классификация">
+              <Column PercentWidth="100">
+                <Control ReadOnly="True" Type="WorkItemClassificationControl" FieldName="System.AreaPath" Label="&amp;Область" LabelPosition="Left" />
+                <Control ReadOnly="True" Type="WorkItemClassificationControl" FieldName="System.IterationPath" Label="Ите&amp;рация" LabelPosition="Left" />
+              </Column>
+            </Group>
+          </Column>
+        </Group>
+        <Group Margin="(5,0,0,0)">
+          <Column PercentWidth="50">
+            <Group Label="Статус">
+              <Column PercentWidth="100">
+                <Control ReadOnly="True" Type="FieldControl" FieldName="System.State" Label="&amp;Состояние" LabelPosition="Left" />
+                <Control ReadOnly="True" Type="FieldControl" FieldName="System.Reason" Label="Причина" LabelPosition="Left" />
+              </Column>
+            </Group>
+          </Column>
+          <Column PercentWidth="50">
+            <Group Label="Информация О Системе">
+              <Column PercentWidth="100">
+                <Control ReadOnly="True" Type="FieldControl" FieldName="System.CreatedBy" Label="Кем создано" LabelPosition="Left" />
+                <Control ReadOnly="True" Type="FieldControl" FieldName="System.CreatedDate" Label="Дата создания" LabelPosition="Left" />
+                <Control ReadOnly="True" Type="FieldControl" FieldName="System.ChangedBy" Label="Кем обновлено" LabelPosition="Left" />
+                <Control ReadOnly="True" Type="FieldControl" FieldName="System.ChangedDate" Label="Дата обновления" LabelPosition="Left" />
+                <Control ReadOnly="True" Type="FieldControl" FieldName="Microsoft.VSTS.Common.ClosedBy" Label="Кем закрыто" LabelPosition="Left" />
+                <Control ReadOnly="True" Type="FieldControl" FieldName="Microsoft.VSTS.Common.ClosedDate" Label="Дата закрытия" LabelPosition="Left" />
+                <Control ReadOnly="True" Type="FieldControl" FieldName="Microsoft.VSTS.CodeReview.ClosedStatus" Label="Закрытое состояние" LabelPosition="Left" />
+                <Control ReadOnly="True" Type="FieldControl" FieldName="Microsoft.VSTS.CodeReview.ClosingComment" Label="Итоговый комментарий" LabelPosition="Left" />
+              </Column>
+            </Group>
+          </Column>
+        </Group>
+        <TabGroup>
+          <Tab Label="Подробно">
+            <Group>
+              <Column PercentWidth="50">
+                <Control ReadOnly="True" Type="HtmlFieldControl" FieldName="System.Description" Label="Описание" LabelPosition="Top" Dock="Fill" />
+              </Column>
+              <Column PercentWidth="50">
+                <Control ReadOnly="True" Type="WorkItemLogControl" FieldName="System.History" Label="Жур&amp;нал" LabelPosition="Top" Dock="Fill" />
+              </Column>
+            </Group>
+          </Tab>
+          <Tab Label="Ссылки">
+            <Control ReadOnly="True" Type="LinksControl" Name="ChildLinks" Label="Запросы" LabelPosition="Top">
+              <LinksControlOptions>
+                <WorkItemLinkFilters FilterType="include">
+                  <Filter LinkType="System.LinkTypes.Hierarchy" />
+                </WorkItemLinkFilters>
+                <WorkItemTypeFilters FilterType="include">
+                  <Filter WorkItemType="Отклик на проверку кода" />
+                </WorkItemTypeFilters>
+                <ExternalLinkFilters FilterType="excludeAll" />
+                <LinkColumns>
+                  <LinkColumn RefName="System.ID" />
+                  <LinkColumn RefName="System.WorkItemType" />
+                  <LinkColumn RefName="System.AssignedTo" />
+                  <LinkColumn RefName="System.State" />
+                  <LinkColumn RefName="Microsoft.VSTS.Common.ClosedBy" />
+                  <LinkColumn RefName="Microsoft.VSTS.CodeReview.ClosedStatus" />
+                  <LinkColumn RefName="Microsoft.VSTS.Common.ClosedDate" />
+                  <LinkColumn LinkAttribute="System.Links.Comment" />
+                </LinkColumns>
+              </LinksControlOptions>
+            </Control>
+          </Tab>
+        </TabGroup>
+      </Layout>
+      <WebLayout>
+        <SystemControls>
+          <Control Label="Жур&amp;нал" Type="WorkItemLogControl" FieldName="System.History" ReadOnly="True" />
+          <Control Type="FieldControl" FieldName="System.Title" EmptyText="&lt;Введите здесь заголовок&gt;" ReadOnly="True" />
+          <Control Label="&amp;Кому назначено" Type="FieldControl" FieldName="System.AssignedTo" EmptyText="&lt;Никто&gt;" ReadOnly="True" />
+          <Control Label="&amp;Область" Type="WorkItemClassificationControl" FieldName="System.AreaPath" ReadOnly="True" />
+          <Control Label="Ите&amp;рация" Type="WorkItemClassificationControl" FieldName="System.IterationPath" ReadOnly="True" />
+          <Control Label="&amp;Состояние" Type="FieldControl" FieldName="System.State" ReadOnly="True" />
+          <Control Label="Причина" Type="FieldControl" FieldName="System.Reason" ReadOnly="True" />
+          <Control Label="Ссылки" Type="LinksControl" Name="Links" />
+          <Control Label="Вложения" Type="AttachmentsControl" Name="Attachments" />
+        </SystemControls>
+        <Page Label="Подробно" LayoutMode="FirstColumnWide">
+          <Section>
+            <Group Label="Описание">
+              <Control Label="Описание" Type="HtmlFieldControl" FieldName="System.Description" ReadOnly="True" />
+            </Group>
+          </Section>
+          <Section>
+            <Group Label="Сведения">
+              <Control Label="Тип связанного контекста" Type="FieldControl" FieldName="Microsoft.VSTS.CodeReview.ContextType" ReadOnly="True" />
+              <Control Label="Связанный контекст" Type="FieldControl" FieldName="Microsoft.VSTS.CodeReview.Context" ReadOnly="True" />
+              <Control Label="Владелец связанного контекста" Type="FieldControl" FieldName="Microsoft.VSTS.CodeReview.ContextOwner" ReadOnly="True" />
+            </Group>
+            <Group Label="Информация О Системе">
+              <Control Label="Кем создано" Type="FieldControl" FieldName="System.CreatedBy" ReadOnly="True" />
+              <Control Label="Дата создания" Type="FieldControl" FieldName="System.CreatedDate" ReadOnly="True" />
+              <Control Label="Кем закрыто" Type="FieldControl" FieldName="Microsoft.VSTS.Common.ClosedBy" ReadOnly="True" />
+              <Control Label="Дата закрытия" Type="FieldControl" FieldName="Microsoft.VSTS.Common.ClosedDate" ReadOnly="True" />
+              <Control Label="Закрытое состояние" Type="FieldControl" FieldName="Microsoft.VSTS.CodeReview.ClosedStatus" ReadOnly="True" />
+              <Control Label="Итоговый комментарий" Type="FieldControl" FieldName="Microsoft.VSTS.CodeReview.ClosingComment" ReadOnly="True" />
+            </Group>
+          </Section>
+          <Section>
+            <Group Label="Разработка">
+              <Control Type="LinksControl" Name="Development">
+                <LinksControlOptions ViewMode="List" ZeroDataExperience="Development" ShowCallToAction="true">
+                  <ListViewOptions GroupLinks="false">
+                  </ListViewOptions>
+                  <LinkFilters>
+                    <ExternalLinkFilter Type="Build" />
+                    <ExternalLinkFilter Type="Integrated in build" />
+                    <ExternalLinkFilter Type="Pull Request" />
+                    <ExternalLinkFilter Type="Branch" />
+                    <ExternalLinkFilter Type="Fixed in Commit" />
+                    <ExternalLinkFilter Type="Fixed in Changeset" />
+                    <ExternalLinkFilter Type="Source Code File" />
+                    <ExternalLinkFilter Type="Found in build" />
+                    <ExternalLinkFilter Type="GitHub Pull Request" />
+                    <ExternalLinkFilter Type="GitHub Commit" />
+                  </LinkFilters>
+                </LinksControlOptions>
+              </Control>
+            </Group>
+            <Group Label="Связанная работа">
+              <Control Type="LinksControl" Name="Related Work">
+                <LinksControlOptions ViewMode="List">
+                  <LinkFilters>
+                    <WorkItemLinkFilter Type="System.LinkTypes.Duplicate-Reverse" />
+                    <WorkItemLinkFilter Type="System.LinkTypes.Hierarchy-Reverse" />
+                    <WorkItemLinkFilter Type="Microsoft.VSTS.Common.TestedBy-Forward" />
+                    <WorkItemLinkFilter Type="Microsoft.VSTS.Common.TestedBy-Reverse" />
+                    <WorkItemLinkFilter Type="System.LinkTypes.Hierarchy-Forward" />
+                    <WorkItemLinkFilter Type="System.LinkTypes.Duplicate-Forward" />
+                    <WorkItemLinkFilter Type="System.LinkTypes.Dependency" />
+                    <WorkItemLinkFilter Type="System.LinkTypes.Related" />
+                    <ExternalLinkFilter Type="GitHub Issue" />
+                  </LinkFilters>
+                  <Columns>
+                    <Column Name="System.State" />
+                    <Column Name="System.ChangedDate" />
+                    <Column Name="System.Links.Comment" />
+                  </Columns>
+                </LinksControlOptions>
+              </Control>
+            </Group>
+            <Group Label="Статус">
+              <Control Label="Причина" Type="FieldControl" FieldName="System.Reason" ReadOnly="True" />
+            </Group>
+          </Section>
+        </Page>
+      </WebLayout>
+    </FORM>
+  </WORKITEMTYPE>
+</witd:WITD>

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkItemQuery Version="1">
+  <Wiql>
+		SELECT [System.Id], [System.Links.LinkType], [System.WorkItemType], [System.Title], [System.AssignedTo], [System.State]
+		FROM WorkItemLinks 
+		WHERE ([Source].[System.TeamProject] = @project  
+		AND  [Source].[System.WorkItemType] = 'Запрос на изменение'  
+		AND  [Source].[System.State] &lt;&gt; 'Закрыто') 
+
+		And ([System.Links.LinkType] IN ('Microsoft.VSTS.Common.Affects-Reverse','Microsoft.VSTS.Common.Affects-Forward'))
+		And ([Target].[System.WorkItemType] = 'Требование') 
+		ORDER BY [System.Id] mode(MustContain)
+	</Wiql>
+</WorkItemQuery>

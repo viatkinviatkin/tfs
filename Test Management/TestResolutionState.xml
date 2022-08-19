@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestResolutionStates>
+    <TestResolutionState name="Требуется исследование"/>
+    <TestResolutionState name="Неполадка теста"/>
+    <TestResolutionState name="Неполадка продукта"/>
+    <TestResolutionState name="Неполадка конфигурации"/>
+</TestResolutionStates>

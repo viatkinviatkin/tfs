@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<tasks>
+  <task id="VersionControlTask" name="Создать область контроля версий" plugin="Microsoft.ProjectCreationWizard.VersionControl" completionMessage="Задача по проверке версии выполнена.">
+    <dependencies/>
+    <taskXml>
+      <permission allow="Read, PendChange, Checkin, Label, Lock, ReviseOther, UnlockOther, UndoOther, LabelOther, AdminProjectRights, CheckinOther, Merge, ManageBranch" identity="[$$PROJECTNAME$$]\$$PROJECTADMINGROUP$$"/>
+      <permission allow="Read, PendChange, Checkin, Label, Lock, Merge" identity="[$$PROJECTNAME$$]\Участники"/>
+      <permission allow="Read, PendChange, Checkin, Label, Lock, Merge" identity="[$$PROJECTNAME$$]\Администраторы сборки"/>
+      <permission allow="Read" identity="[$$PROJECTNAME$$]\Читатели"/>
+      <exclusive_checkout required="true"/>
+      <get_latest_on_checkout required="true"/>
+      <git>
+        <permission allow="GenericRead, GenericContribute, ForcePush, Administer, CreateBranch, CreateTag, ManageNote" identity="[$$PROJECTNAME$$]\$$PROJECTADMINGROUP$$"/>
+        <permission allow="GenericRead, GenericContribute, CreateBranch, CreateTag, ManageNote" identity="[$$PROJECTNAME$$]\Участники"/>
+        <permission allow="GenericRead, GenericContribute, CreateBranch, CreateTag, ManageNote" identity="[$$PROJECTNAME$$]\Администраторы сборки"/>
+        <permission allow="GenericRead" identity="[$$PROJECTNAME$$]\Читатели"/>        
+      </git>
+    </taskXml>
+  </task>
+</tasks>

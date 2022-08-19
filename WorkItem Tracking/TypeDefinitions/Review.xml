@@ -1,0 +1,606 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<witd:WITD application="Work item type editor" version="1.0" xmlns:witd="http://schemas.microsoft.com/VisualStudio/2008/workitemtracking/typedef">
+  <WORKITEMTYPE name="Обзор" refname="Microsoft.VSTS.WorkItemTypes.Review">
+    <DESCRIPTION>Этот рабочий элемент отслеживает проверки и результаты.</DESCRIPTION>
+    <FIELDS>
+      <FIELD name="Идентификатор" refname="System.Id" type="Integer" reportable="dimension" />
+      <FIELD name="Название" refname="System.Title" type="String" reportable="dimension">
+        <REQUIRED />
+        <HELPTEXT>Краткое описание проверки, используемое для его различения в списке или отчете</HELPTEXT>
+      </FIELD>
+      <FIELD name="Кому назначено" refname="System.AssignedTo" type="String" reportable="dimension" syncnamechanges="true">
+        <HELPTEXT>Лицо, которое в настоящее время занимается проверкой</HELPTEXT>
+        <ALLOWEXISTINGVALUE />
+        <VALIDUSER />
+      </FIELD>
+      <FIELD name="Журнал" refname="System.History" type="History">
+        <HELPTEXT>Поток дискуссии и другие накопленные сведения</HELPTEXT>
+      </FIELD>
+      <FIELD name="Путь к области" refname="System.AreaPath" type="TreePath" reportable="dimension">
+        <HELPTEXT>Область продукта, с которой связана эта проверка</HELPTEXT>
+      </FIELD>
+      <FIELD name="Путь итерации" refname="System.IterationPath" type="TreePath" reportable="dimension">
+        <HELPTEXT>Итерация продукта, с которой связана эта проверка</HELPTEXT>
+      </FIELD>
+      <FIELD name="Состояние" refname="System.State" type="String" reportable="dimension">
+        <HELPTEXT>Состояние рабочего процесса проверки</HELPTEXT>
+      </FIELD>
+      <FIELD name="Причина" refname="System.Reason" type="String" reportable="dimension">
+        <HELPTEXT>Причина, по которой проверка находится в текущем состоянии</HELPTEXT>
+      </FIELD>
+      <FIELD name="Дата изменения" refname="System.ChangedDate" type="DateTime" reportable="dimension" />
+      <FIELD name="Кем изменено" refname="System.ChangedBy" type="String" reportable="dimension" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Дата создания" refname="System.CreatedDate" type="DateTime" reportable="dimension" />
+      <FIELD name="Кем создано" refname="System.CreatedBy" type="String" reportable="dimension" syncnamechanges="true" />
+      <!-- *************** Common Fields ****************   -->
+      <FIELD name="Дата изменения состояния" refname="Microsoft.VSTS.Common.StateChangeDate" type="DateTime">
+        <WHENCHANGED field="System.State">
+          <SERVERDEFAULT from="clock" />
+        </WHENCHANGED>
+        <WHENNOTCHANGED field="System.State">
+          <READONLY />
+        </WHENNOTCHANGED>
+      </FIELD>
+      <FIELD name="Дата активации" refname="Microsoft.VSTS.Common.ActivatedDate" type="DateTime" reportable="dimension">
+        <WHENNOTCHANGED field="System.State">
+          <READONLY />
+        </WHENNOTCHANGED>
+      </FIELD>
+      <FIELD name="Кем активировано" refname="Microsoft.VSTS.Common.ActivatedBy" type="String" syncnamechanges="true" reportable="dimension">
+        <WHENNOTCHANGED field="System.State">
+          <READONLY />
+        </WHENNOTCHANGED>
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Дата разрешения" refname="Microsoft.VSTS.Common.ResolvedDate" type="DateTime" reportable="dimension">
+        <WHENNOTCHANGED field="System.State">
+          <READONLY />
+        </WHENNOTCHANGED>
+      </FIELD>
+      <FIELD name="Кем разрешено" refname="Microsoft.VSTS.Common.ResolvedBy" type="String" syncnamechanges="true" reportable="dimension">
+        <WHENNOTCHANGED field="System.State">
+          <READONLY />
+        </WHENNOTCHANGED>
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Разрешенная причина" refname="Microsoft.VSTS.Common.ResolvedReason" type="String" reportable="dimension" />
+      <FIELD name="Дата закрытия" refname="Microsoft.VSTS.Common.ClosedDate" type="DateTime" reportable="dimension">
+        <WHENNOTCHANGED field="System.State">
+          <READONLY />
+        </WHENNOTCHANGED>
+      </FIELD>
+      <FIELD name="Кем закрыто" refname="Microsoft.VSTS.Common.ClosedBy" type="String" syncnamechanges="true" reportable="dimension">
+        <WHENNOTCHANGED field="System.State">
+          <READONLY />
+        </WHENNOTCHANGED>
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <!-- **************** Build Integration Fields *******************************************  -->
+      <FIELD name="Сборка интеграции" refname="Microsoft.VSTS.Build.IntegrationBuild" type="String" reportable="dimension">
+        <SUGGESTEDVALUES>
+          <LISTITEM value="&lt;Нет&gt;" />
+        </SUGGESTEDVALUES>
+        <HELPTEXT>Сборка, в которой была выполнена проверка</HELPTEXT>
+      </FIELD>
+      <!-- *************** MSF for CMMI PI Fields ****************   -->
+      <FIELD name="Цель" refname="Microsoft.VSTS.CMMI.Purpose" type="HTML">
+        <REQUIRED />
+        <HELPTEXT>Назначение проверки</HELPTEXT>
+      </FIELD>
+      <FIELD name="Комментарии" refname="Microsoft.VSTS.CMMI.Comments" type="HTML">
+        <HELPTEXT>Комментарии к проверке</HELPTEXT>
+      </FIELD>
+      <FIELD name="Протокол" refname="Microsoft.VSTS.CMMI.Minutes" type="HTML">
+        <HELPTEXT>Протокол собрания по проверке</HELPTEXT>
+      </FIELD>
+      <FIELD name="Тип собрания" refname="Microsoft.VSTS.CMMI.MeetingType" type="String">
+        <ALLOWEDVALUES>
+          <LISTITEM value="Собрание" />
+          <LISTITEM value="Вне сети" />
+        </ALLOWEDVALUES>
+        <DEFAULT from="value" value="Вне сети" />
+        <HELPTEXT>Тип собрания по проверке</HELPTEXT>
+      </FIELD>
+      <FIELD name="Дата вызова" refname="Microsoft.VSTS.CMMI.CalledDate" type="DateTime">
+        <HELPTEXT>Дата и время вызова проверки</HELPTEXT>
+      </FIELD>
+      <FIELD name="Кем вызван" refname="Microsoft.VSTS.CMMI.CalledBy" type="String" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+        <HELPTEXT>Лицо, вызвавшее проверку</HELPTEXT>
+      </FIELD>
+      <FIELD name="Обязательный участник 1" refname="Microsoft.VSTS.CMMI.RequiredAttendee1" type="String" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Обязательный участник 2" refname="Microsoft.VSTS.CMMI.RequiredAttendee2" type="String" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Обязательный участник 3" refname="Microsoft.VSTS.CMMI.RequiredAttendee3" type="String" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Обязательный участник 4" refname="Microsoft.VSTS.CMMI.RequiredAttendee4" type="String" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Обязательный участник 5" refname="Microsoft.VSTS.CMMI.RequiredAttendee5" type="String" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Обязательный участник 6" refname="Microsoft.VSTS.CMMI.RequiredAttendee6" type="String" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Обязательный участник 7" refname="Microsoft.VSTS.CMMI.RequiredAttendee7" type="String" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Обязательный участник 8" refname="Microsoft.VSTS.CMMI.RequiredAttendee8" type="String" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Необязательный участник 1" refname="Microsoft.VSTS.CMMI.OptionalAttendee1" type="String" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Необязательный участник 2" refname="Microsoft.VSTS.CMMI.OptionalAttendee2" type="String" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Необязательный участник 3" refname="Microsoft.VSTS.CMMI.OptionalAttendee3" type="String" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Необязательный участник 4" refname="Microsoft.VSTS.CMMI.OptionalAttendee4" type="String" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Необязательный участник 5" refname="Microsoft.VSTS.CMMI.OptionalAttendee5" type="String" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Необязательный участник 6" refname="Microsoft.VSTS.CMMI.OptionalAttendee6" type="String" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Необязательный участник 7" refname="Microsoft.VSTS.CMMI.OptionalAttendee7" type="String" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Необязательный участник 8" refname="Microsoft.VSTS.CMMI.OptionalAttendee8" type="String" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Фактический участник 1" refname="Microsoft.VSTS.CMMI.ActualAttendee1" type="String" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Фактический участник 2" refname="Microsoft.VSTS.CMMI.ActualAttendee2" type="String" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Фактический участник 3" refname="Microsoft.VSTS.CMMI.ActualAttendee3" type="String" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Фактический участник 4" refname="Microsoft.VSTS.CMMI.ActualAttendee4" type="String" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Фактический участник 5" refname="Microsoft.VSTS.CMMI.ActualAttendee5" type="String" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Фактический участник 6" refname="Microsoft.VSTS.CMMI.ActualAttendee6" type="String" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Фактический участник 7" refname="Microsoft.VSTS.CMMI.ActualAttendee7" type="String" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+      <FIELD name="Фактический участник 8" refname="Microsoft.VSTS.CMMI.ActualAttendee8" type="String" syncnamechanges="true">
+        <VALIDUSER />
+        <ALLOWEXISTINGVALUE />
+      </FIELD>
+    </FIELDS>
+    <WORKFLOW>
+      <STATES>
+        <STATE value="Активно">
+          <FIELDS>
+            <FIELD refname="Microsoft.VSTS.Common.ResolvedDate">
+              <EMPTY />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ResolvedBy">
+              <EMPTY />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ResolvedReason">
+              <EMPTY />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedDate">
+              <EMPTY />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedBy">
+              <EMPTY />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ActivatedDate">
+              <REQUIRED />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ActivatedBy">
+              <REQUIRED />
+            </FIELD>
+          </FIELDS>
+        </STATE>
+        <STATE value="Выполнено">
+          <FIELDS>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedDate">
+              <EMPTY />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedBy">
+              <EMPTY />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ResolvedReason">
+              <COPY from="field" field="System.Reason" />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ResolvedDate">
+              <REQUIRED />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ResolvedBy">
+              <REQUIRED />
+            </FIELD>
+            <FIELD refname="System.AssignedTo">
+              <REQUIRED />
+            </FIELD>
+          </FIELDS>
+        </STATE>
+        <STATE value="Закрыто">
+          <FIELDS>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedBy">
+              <REQUIRED />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedDate">
+              <REQUIRED />
+            </FIELD>
+          </FIELDS>
+        </STATE>
+      </STATES>
+      <TRANSITIONS>
+        <TRANSITION from="" to="Активно">
+          <REASONS>
+            <DEFAULTREASON value="Новый" />
+          </REASONS>
+          <FIELDS>
+            <FIELD refname="Microsoft.VSTS.CMMI.CalledBy">
+              <COPY from="currentuser" />
+              <VALIDUSER />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.CMMI.CalledDate">
+              <SERVERDEFAULT from="clock" />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ActivatedDate">
+              <SERVERDEFAULT from="clock" />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ActivatedBy">
+              <COPY from="currentuser" />
+              <VALIDUSER />
+            </FIELD>
+            <FIELD refname="System.AssignedTo">
+              <DEFAULT from="currentuser" />
+            </FIELD>
+          </FIELDS>
+        </TRANSITION>
+        <TRANSITION from="Активно" to="Выполнено">
+          <REASONS>
+            <REASON value="Принято со значительными изменениями" />
+            <DEFAULTREASON value="Принято с незначительными изменениями" />
+          </REASONS>
+          <FIELDS>
+            <FIELD refname="Microsoft.VSTS.Common.ResolvedDate">
+              <SERVERDEFAULT from="clock" />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ResolvedBy">
+              <COPY from="currentuser" />
+              <VALIDUSER />
+            </FIELD>
+          </FIELDS>
+        </TRANSITION>
+        <TRANSITION from="Выполнено" to="Закрыто">
+          <REASONS>
+            <DEFAULTREASON value="Незначительные изменения выполнены" />
+          </REASONS>
+          <FIELDS>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedDate">
+              <SERVERDEFAULT from="clock" />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedBy">
+              <COPY from="currentuser" />
+              <VALIDUSER />
+            </FIELD>
+          </FIELDS>
+        </TRANSITION>
+        <TRANSITION from="Активно" to="Закрыто">
+          <REASONS>
+            <DEFAULTREASON value="Принято (как есть)" />
+          </REASONS>
+          <FIELDS>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedDate">
+              <SERVERDEFAULT from="clock" />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ClosedBy">
+              <COPY from="currentuser" />
+              <VALIDUSER />
+            </FIELD>
+          </FIELDS>
+        </TRANSITION>
+        <TRANSITION from="Закрыто" to="Активно">
+          <REASONS>
+            <DEFAULTREASON value="Закрыто по ошибке" />
+          </REASONS>
+          <FIELDS>
+            <FIELD refname="Microsoft.VSTS.Common.ActivatedDate">
+              <SERVERDEFAULT from="clock" />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ActivatedBy">
+              <COPY from="currentuser" />
+              <VALIDUSER />
+            </FIELD>
+            <FIELD refname="System.AssignedTo">
+              <COPY from="field" field="Microsoft.VSTS.Common.ClosedBy" />
+            </FIELD>
+          </FIELDS>
+        </TRANSITION>
+        <TRANSITION from="Выполнено" to="Активно">
+          <REASONS>
+            <DEFAULTREASON value="Основные изменения выполнены" />
+          </REASONS>
+          <FIELDS>
+            <FIELD refname="Microsoft.VSTS.Common.ActivatedDate">
+              <SERVERDEFAULT from="clock" />
+            </FIELD>
+            <FIELD refname="Microsoft.VSTS.Common.ActivatedBy">
+              <COPY from="currentuser" />
+              <VALIDUSER />
+            </FIELD>
+          </FIELDS>
+        </TRANSITION>
+      </TRANSITIONS>
+    </WORKFLOW>
+    <FORM>
+      <Layout HideReadOnlyEmptyFields="true" HideControlBorders="true">
+        <Group Margin="(4,0,0,0)">
+          <Column PercentWidth="90">
+            <Control Type="FieldControl" FieldName="System.Title" ControlFontSize="large" EmptyText="&lt;Введите здесь заголовок&gt;" />
+          </Column>
+          <Column PercentWidth="10">
+            <Control FieldName="System.ID" Type="FieldControl" ControlFontSize="large" />
+          </Column>
+        </Group>
+        <Group Margin="(10,0,0,0)">
+          <Column PercentWidth="50">
+            <Group Label="Статус">
+              <Column PercentWidth="100">
+                <Control Type="FieldControl" FieldName="System.AssignedTo" Label="&amp;Кому назначено" LabelPosition="Left" />
+                <Control Type="FieldControl" FieldName="System.State" Label="&amp;Состояние" LabelPosition="Left" />
+                <Control Type="FieldControl" FieldName="System.Reason" Label="Причина" LabelPosition="Left" />
+              </Column>
+            </Group>
+          </Column>
+          <Column PercentWidth="50">
+            <Group Label="Собрание">
+              <Column PercentWidth="100">
+                <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.CalledBy" Label="Кем вызван" LabelPosition="Left" />
+                <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.CalledDate" Label="Дата вызова" LabelPosition="Left" />
+                <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.MeetingType" Label="Тип собрания" LabelPosition="Left" />
+              </Column>
+            </Group>
+          </Column>
+        </Group>
+        <Group>
+          <Column PercentWidth="50">
+            <TabGroup>
+              <Tab Label="Цель">
+                <Control Type="HtmlFieldControl" FieldName="Microsoft.VSTS.CMMI.Purpose" Dock="Fill" />
+              </Tab>
+              <Tab Label="Протокол">
+                <Control Type="HtmlFieldControl" FieldName="Microsoft.VSTS.CMMI.Minutes" Dock="Fill" />
+              </Tab>
+              <Tab Label="Комментарии">
+                <Control Type="HtmlFieldControl" FieldName="Microsoft.VSTS.CMMI.Comments" Dock="Fill" />
+              </Tab>
+              <Tab Label="Участники">
+                <Group>
+                  <Column PercentWidth="50">
+                    <Group Label="Обязательные">
+                      <Column PercentWidth="100">
+                        <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.RequiredAttendee1" Label="Обязательный участник 1" LabelPosition="Left" />
+                        <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.RequiredAttendee2" Label="Обязательный участник 2" LabelPosition="Left" />
+                        <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.RequiredAttendee3" Label="Обязательный участник 3" LabelPosition="Left" />
+                        <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.RequiredAttendee4" Label="Обязательный участник 4" LabelPosition="Left" />
+                        <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.RequiredAttendee5" Label="Обязательный участник 5" LabelPosition="Left" />
+                        <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.RequiredAttendee6" Label="Обязательный участник 6" LabelPosition="Left" />
+                        <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.RequiredAttendee7" Label="Обязательный участник 7" LabelPosition="Left" />
+                        <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.RequiredAttendee8" Label="Обязательный участник 8" LabelPosition="Left" />
+                      </Column>
+                    </Group>
+                  </Column>
+                  <Column PercentWidth="50">
+                    <Group Label="Фактические">
+                      <Column PercentWidth="100">
+                        <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.ActualAttendee1" Label="Фактический участник 1" LabelPosition="Left" />
+                        <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.ActualAttendee2" Label="Фактический участник 2" LabelPosition="Left" />
+                        <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.ActualAttendee3" Label="Фактический участник 3" LabelPosition="Left" />
+                        <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.ActualAttendee4" Label="Фактический участник 4" LabelPosition="Left" />
+                        <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.ActualAttendee5" Label="Фактический участник 5" LabelPosition="Left" />
+                        <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.ActualAttendee6" Label="Фактический участник 6" LabelPosition="Left" />
+                        <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.ActualAttendee7" Label="Фактический участник 7" LabelPosition="Left" />
+                        <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.ActualAttendee8" Label="Фактический участник 8" LabelPosition="Left" />
+                      </Column>
+                    </Group>
+                  </Column>
+                </Group>
+                <Group>
+                  <Column PercentWidth="100">
+                    <Group Label="Необязательные">
+                      <Column PercentWidth="100">
+                        <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.OptionalAttendee1" Label="Необязательный участник 1" LabelPosition="Left" />
+                        <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.OptionalAttendee2" Label="Необязательный участник 2" LabelPosition="Left" />
+                        <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.OptionalAttendee3" Label="Необязательный участник 3" LabelPosition="Left" />
+                        <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.OptionalAttendee4" Label="Необязательный участник 4" LabelPosition="Left" />
+                        <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.OptionalAttendee5" Label="Необязательный участник 5" LabelPosition="Left" />
+                        <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.OptionalAttendee6" Label="Необязательный участник 6" LabelPosition="Left" />
+                        <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.OptionalAttendee7" Label="Необязательный участник 7" LabelPosition="Left" />
+                        <Control Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.OptionalAttendee8" Label="Необязательный участник 8" LabelPosition="Left" />
+                      </Column>
+                    </Group>
+                  </Column>
+                </Group>
+              </Tab>
+            </TabGroup>
+          </Column>
+          <Column PercentWidth="50">
+            <TabGroup Margin="(5,0,0,0)">
+              <Tab Label="Журнал">
+                <Control Type="WorkItemLogControl" FieldName="System.History" Dock="Fill" />
+              </Tab>
+              <Tab Label="Вложения">
+                <Control Type="AttachmentsControl" LabelPosition="Top" />
+              </Tab>
+              <Tab Label="Все ссылки">
+                <Control Type="LinksControl" LabelPosition="Top">
+                  <LinksControlOptions>
+                    <LinkColumns>
+                      <LinkColumn RefName="System.ID" />
+                      <LinkColumn RefName="System.WorkItemType" />
+                      <LinkColumn RefName="System.Title" />
+                      <LinkColumn RefName="System.AssignedTo" />
+                      <LinkColumn RefName="System.State" />
+                      <LinkColumn LinkAttribute="System.Links.Comment" />
+                    </LinkColumns>
+                    <WorkItemLinkFilters FilterType="includeAll" />
+                    <ExternalLinkFilters FilterType="includeAll" />
+                    <WorkItemTypeFilters FilterType="includeAll" />
+                  </LinksControlOptions>
+                </Control>
+              </Tab>
+            </TabGroup>
+          </Column>
+        </Group>
+      </Layout>
+      <WebLayout ShowEmptyReadOnlyFields="false">
+        <SystemControls>
+          <Control Type="FieldControl" FieldName="System.Title" EmptyText="&lt;Введите здесь заголовок&gt;" />
+          <Control Label="&amp;Кому назначено" Type="FieldControl" FieldName="System.AssignedTo" />
+          <Control Label="&amp;Состояние" Type="FieldControl" FieldName="System.State" />
+          <Control Label="Причина" Type="FieldControl" FieldName="System.Reason" />
+          <Control Label="История" Type="WorkItemLogControl" FieldName="System.History" />
+          <Control Label="Вложения" Type="AttachmentsControl" Name="Attachments" />
+          <Control Label="Ссылки" Type="LinksControl" Name="Links" />
+          <Control Label="&amp;Область" Type="WorkItemClassificationControl" FieldName="System.AreaPath" />
+          <Control Label="Ите&amp;рация" Type="WorkItemClassificationControl" FieldName="System.IterationPath" />
+        </SystemControls>
+        <Page Label="Подробности" LayoutMode="FirstColumnWide">
+          <Section>
+            <Group Label="Цель">
+              <Control Type="HtmlFieldControl" FieldName="Microsoft.VSTS.CMMI.Purpose" />
+            </Group>
+            <Group Label="Протокол">
+              <Control Type="HtmlFieldControl" FieldName="Microsoft.VSTS.CMMI.Minutes" />
+            </Group>
+            <Group Label="Комментарии">
+              <Control Type="HtmlFieldControl" FieldName="Microsoft.VSTS.CMMI.Comments" />
+            </Group>
+          </Section>
+          <Section>
+            <Group Label="Статус">
+              <Control Label="Причина" Type="FieldControl" FieldName="System.Reason" />
+            </Group>
+            <Group Label="Обязательные">
+              <Control Label="Обязательный участник 1" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.RequiredAttendee1" />
+              <Control Label="Обязательный участник 2" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.RequiredAttendee2" />
+              <Control Label="Обязательный участник 3" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.RequiredAttendee3" />
+              <Control Label="Обязательный участник 4" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.RequiredAttendee4" />
+              <Control Label="Обязательный участник 5" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.RequiredAttendee5" />
+              <Control Label="Обязательный участник 6" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.RequiredAttendee6" />
+              <Control Label="Обязательный участник 7" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.RequiredAttendee7" />
+              <Control Label="Обязательный участник 8" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.RequiredAttendee8" />
+            </Group>
+            <Group Label="Необязательные">
+              <Control Label="Необязательный участник 1" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.OptionalAttendee1" />
+              <Control Label="Необязательный участник 2" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.OptionalAttendee2" />
+              <Control Label="Необязательный участник 3" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.OptionalAttendee3" />
+              <Control Label="Необязательный участник 4" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.OptionalAttendee4" />
+              <Control Label="Необязательный участник 5" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.OptionalAttendee5" />
+              <Control Label="Необязательный участник 6" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.OptionalAttendee6" />
+              <Control Label="Необязательный участник 7" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.OptionalAttendee7" />
+              <Control Label="Необязательный участник 8" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.OptionalAttendee8" />
+            </Group>
+          </Section>
+          <Section>
+            <Group Label="Разработка">
+              <Control Type="LinksControl" Name="Development">
+                <LinksControlOptions ViewMode="List" ZeroDataExperience="Development" ShowCallToAction="true">
+                  <ListViewOptions GroupLinks="false">
+                  </ListViewOptions>
+                  <LinkFilters>
+                    <ExternalLinkFilter Type="Build" />
+                    <ExternalLinkFilter Type="Integrated in build" />
+                    <ExternalLinkFilter Type="Pull Request" />
+                    <ExternalLinkFilter Type="Branch" />
+                    <ExternalLinkFilter Type="Fixed in Commit" />
+                    <ExternalLinkFilter Type="Fixed in Changeset" />
+                    <ExternalLinkFilter Type="Source Code File" />
+                    <ExternalLinkFilter Type="Found in build" />
+                    <ExternalLinkFilter Type="GitHub Pull Request" />
+                    <ExternalLinkFilter Type="GitHub Commit" />
+                  </LinkFilters>
+                </LinksControlOptions>
+              </Control>
+            </Group>
+            <Group Label="Связанная работа">
+              <Control Type="LinksControl" Name="Related Work">
+                <LinksControlOptions ViewMode="List">
+                  <LinkFilters>
+                    <WorkItemLinkFilter Type="System.LinkTypes.Duplicate-Reverse" />
+                    <WorkItemLinkFilter Type="System.LinkTypes.Hierarchy-Reverse" />
+                    <WorkItemLinkFilter Type="Microsoft.VSTS.Common.TestedBy-Forward" />
+                    <WorkItemLinkFilter Type="Microsoft.VSTS.Common.TestedBy-Reverse" />
+                    <WorkItemLinkFilter Type="System.LinkTypes.Hierarchy-Forward" />
+                    <WorkItemLinkFilter Type="System.LinkTypes.Duplicate-Forward" />
+                    <WorkItemLinkFilter Type="System.LinkTypes.Dependency" />
+                    <WorkItemLinkFilter Type="System.LinkTypes.Related" />
+                    <ExternalLinkFilter Type="GitHub Issue" />
+                  </LinkFilters>
+                  <Columns>
+                    <Column Name="System.State" />
+                    <Column Name="System.ChangedDate" />
+                    <Column Name="System.Links.Comment" />
+                  </Columns>
+                </LinksControlOptions>
+              </Control>
+            </Group>
+            <Group Label="Собрание">
+              <Control Label="Кем вызван" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.CalledBy" />
+              <Control Label="Дата вызова" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.CalledDate" />
+              <Control Label="Тип собрания" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.MeetingType" />
+            </Group>
+            <Group Label="Фактические">
+              <Control Label="Фактический участник 1" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.ActualAttendee1" />
+              <Control Label="Фактический участник 2" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.ActualAttendee2" />
+              <Control Label="Фактический участник 3" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.ActualAttendee3" />
+              <Control Label="Фактический участник 4" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.ActualAttendee4" />
+              <Control Label="Фактический участник 5" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.ActualAttendee5" />
+              <Control Label="Фактический участник 6" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.ActualAttendee6" />
+              <Control Label="Фактический участник 7" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.ActualAttendee7" />
+              <Control Label="Фактический участник 8" Type="FieldControl" FieldName="Microsoft.VSTS.CMMI.ActualAttendee8" />
+            </Group>
+          </Section>
+        </Page>
+      </WebLayout>
+    </FORM>
+  </WORKITEMTYPE>
+</witd:WITD>

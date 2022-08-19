@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkItemQuery Version="1">
+  <Wiql>SELECT 
+[System.Id], 
+[System.State], 
+[System.WorkItemType], 
+[System.Title], 
+[Microsoft.VSTS.Common.Priority], 
+[Microsoft.VSTS.Common.StackRank], 
+[System.AssignedTo], [IIS.Tester], 
+[System.CreatedBy], 
+[System.CreatedDate], 
+[System.ChangedDate] 
+FROM WorkItemLinks 
+WHERE 
+	([Source].[System.TeamProject] = @project) 
+And 	([System.Links.LinkType] = 'System.LinkTypes.Hierarchy-Forward') 
+And 	([Target].[System.WorkItemType] &lt;&gt; '') 
+
+ORDER BY [System.State], [Microsoft.VSTS.Common.Priority], [Microsoft.VSTS.Common.StackRank] 
+mode(Recursive)</Wiql>
+</WorkItemQuery>

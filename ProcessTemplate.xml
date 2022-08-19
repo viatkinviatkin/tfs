@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ProcessTemplate>
+  <metadata>
+    <name>Шаблон процесса разработки ДИС</name>
+    <description>Этот шаблон позволяет организовывать и отслеживать выполнение и состояние проектов департамента информационных систем</description>
+    <version type="ECCEB50F-253C-4490-A0DE-EC1DCE5D4B7E" major="14" minor="5" />
+    <plugins>
+      <plugin name="Microsoft.ProjectCreationWizard.Classification" wizardPage="false" />
+      <plugin name="Microsoft.ProjectCreationWizard.Reporting" wizardPage="false" />
+      <plugin name="Microsoft.ProjectCreationWizard.Groups" wizardPage="false" />
+      <plugin name="Microsoft.ProjectCreationWizard.WorkItemTracking" wizardPage="false" />
+      <plugin name="Microsoft.ProjectCreationWizard.VersionControl" wizardPage="true" />
+      <plugin name="Microsoft.ProjectCreationWizard.TestManagement" wizardPage="false" />
+      <plugin name="Microsoft.ProjectCreationWizard.Build" wizardPage="false" />
+      <plugin name="Microsoft.ProjectCreationWizard.Lab" wizardPage="false" />
+    </plugins>
+  </metadata>
+  <groups>
+    <group id="Classification" description="Структурное определение проекта." completionMessage="Структура проекта отправлена.">
+      <dependencies></dependencies>
+      <taskList filename="Classification\Classification.xml" />
+    </group>
+    <group id="Groups" description="Создать группы и назначить разрешения." completionMessage="Созданы группы и назначены разрешения.">
+      <dependencies>
+        <dependency groupId="Classification" />
+      </dependencies>
+      <taskList filename="Groups and Permissions\GroupsandPermissions.xml" />
+    </group>
+    <group id="Reporting" description="Отчеты по проекту отправляются." completionMessage="Задачи отчетов проекта завершены.">
+      <dependencies>
+        <dependency groupId="Classification" />
+        <dependency groupId="WorkItemTracking" />
+        <dependency groupId="VersionControl" />
+      </dependencies>
+      <taskList filename="Reports\ReportsTasks.xml" />
+    </group>
+    <group id="WorkItemTracking" description="Загрузка определений рабочих элементов." completionMessage="Задачи отслеживания рабочих элементов завершены.">
+      <dependencies>
+        <dependency groupId="Classification" />
+        <dependency groupId="Groups" />
+      </dependencies>
+      <taskList filename="WorkItem Tracking\WorkItems.xml" />
+    </group>
+    <group id="VersionControl" description="Создание контроля версий." completionMessage="Задача по проверке версии выполнена.">
+      <dependencies>
+        <dependency groupId="Classification" />
+        <dependency groupId="Groups" />
+        <dependency groupId="WorkItemTracking" />
+      </dependencies>
+      <taskList filename="Version Control\VersionControl.xml" />
+    </group>
+    <group id="Lab" description="Создание лаборатории." completionMessage="Задача лаборатории завершена.">
+      <dependencies>
+        <dependency groupId="Classification" />
+        <dependency groupId="Groups" />
+        <dependency groupId="WorkItemTracking" />
+        <dependency groupId="Build" />
+      </dependencies>
+      <taskList filename="Lab\Lab.xml" />
+    </group>
+    <group id="TestManagement" description="Загрузка конфигураций по умолчанию для управления тестами." completionMessage="Загружены конфигурации по умолчанию для управления тестами.">
+      <dependencies>
+        <dependency groupId="Classification" />
+        <dependency groupId="Groups" />
+        <dependency groupId="WorkItemTracking" />
+      </dependencies>
+      <taskList filename="Test Management\TestManagement.xml" />
+    </group>
+    <group id="Build" description="Отправка процессов сборки по умолчанию." completionMessage="Процессы сборки по умолчанию отправлены.">
+      <dependencies>
+        <dependency groupId="VersionControl" />
+        <dependency groupId="Groups" />
+      </dependencies>
+      <taskList filename="Build\Build.xml" />
+    </group>
+  </groups>
+</ProcessTemplate>

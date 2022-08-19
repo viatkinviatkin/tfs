@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkItemQuery Version="1">
+  <Wiql>
+		SELECT [System.Id], [System.IterationId], [System.State], [Microsoft.VSTS.Common.Priority], [System.Title] 
+		FROM WorkItems 
+		WHERE [System.TeamProject] = @project  
+		AND  [System.WorkItemType] = 'Требование'  
+		AND  (
+                       [Microsoft.VSTS.CMMI.RequirementType] = 'Функциональный' OR
+                       [Microsoft.VSTS.CMMI.RequirementType] = 'Интерфейс'  OR  
+                       [Microsoft.VSTS.CMMI.RequirementType] = 'Оперативный'  OR 
+                       [Microsoft.VSTS.CMMI.RequirementType] = 'Безопасность'  OR 
+                       [Microsoft.VSTS.CMMI.RequirementType] = 'Обеспечение безопасности'  OR  
+                       [Microsoft.VSTS.CMMI.RequirementType] = 'Возможности'
+                 ) 
+		ORDER BY [System.Id]
+	</Wiql>
+</WorkItemQuery>

@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cat:CATEGORIES xmlns:cat="http://schemas.microsoft.com/VisualStudio/2008/workitemtracking/categories">
+  <!-- Usage: for resilience in Test system. Even if WITs have different name, they can be referred to by the category -->
+  <CATEGORY name="Категория задачи" refname="Microsoft.TaskCategory">
+    <DEFAULTWORKITEMTYPE name="Задача" />
+  </CATEGORY>
+  <CATEGORY name="Категория ошибки" refname="Microsoft.BugCategory">
+    <DEFAULTWORKITEMTYPE name="Ошибка" />
+  </CATEGORY>
+  <CATEGORY name="Категория ситуации" refname="Microsoft.EpicCategory">
+    <DEFAULTWORKITEMTYPE name="Ситуация"/>
+  </CATEGORY>
+  <CATEGORY name="Категория компонента" refname="Microsoft.FeatureCategory">
+    <DEFAULTWORKITEMTYPE name="Возможность" />
+  </CATEGORY>
+  <CATEGORY name="Категория требований" refname="Microsoft.RequirementCategory">
+    <DEFAULTWORKITEMTYPE name="Требование" />
+  </CATEGORY>
+  <CATEGORY name="Категория тестовых случаев" refname="Microsoft.TestCaseCategory">
+    <DEFAULTWORKITEMTYPE name="Тестовый случай" />
+  </CATEGORY>
+  <CATEGORY name="Категория общих шагов" refname="Microsoft.SharedStepCategory">
+    <DEFAULTWORKITEMTYPE name="Общие шаги" />
+  </CATEGORY>
+  <CATEGORY name="Категория общих параметров" refname="Microsoft.SharedParameterCategory">
+    <DEFAULTWORKITEMTYPE name="Общий параметр" />
+  </CATEGORY>
+  <CATEGORY name="Категория запроса проверки кода" refname="Microsoft.CodeReviewRequestCategory">
+    <DEFAULTWORKITEMTYPE name="Запрос на проверку кода" />
+  </CATEGORY>
+  <CATEGORY name="Категория ответа на проверку кода" refname="Microsoft.CodeReviewResponseCategory">
+    <DEFAULTWORKITEMTYPE name="Ответ на проверку кода" />
+  </CATEGORY>
+  <CATEGORY name="Категория запроса отзыва" refname="Microsoft.FeedbackRequestCategory">
+    <DEFAULTWORKITEMTYPE name="Запрос отзыва" />
+  </CATEGORY>
+  <CATEGORY name="Категория отзыва" refname="Microsoft.FeedbackResponseCategory">
+    <DEFAULTWORKITEMTYPE name="Ответ на отзыв" />
+  </CATEGORY>
+  <CATEGORY name="Категория плана тестирования" refname="Microsoft.TestPlanCategory">
+    <DEFAULTWORKITEMTYPE name="План тестирования" />
+  </CATEGORY>
+  <CATEGORY name="Категория набора тестов" refname="Microsoft.TestSuiteCategory">
+    <DEFAULTWORKITEMTYPE name="Набор тестов" />
+  </CATEGORY>
+  <CATEGORY name="Категория скрытых типов" refname="Microsoft.HiddenCategory">
+    <DEFAULTWORKITEMTYPE name="Запрос на проверку кода" />
+    <WORKITEMTYPE name="Ответ на проверку кода" />
+    <WORKITEMTYPE name="Запрос отзыва" />
+    <WORKITEMTYPE name="Ответ на отзыв" />
+    <WORKITEMTYPE name="Общие шаги" />
+    <WORKITEMTYPE name="Общий параметр" />
+	<WORKITEMTYPE name="План тестирования" />
+    <WORKITEMTYPE name="Набор тестов" />
+  </CATEGORY>
+</cat:CATEGORIES>

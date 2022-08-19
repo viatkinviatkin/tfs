@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<tasks>
+  <task id="BuildTask" name="Добавить разрешения сборки" plugin="Microsoft.ProjectCreationWizard.Build" completionMessage="Задачи сборки завершены.">
+    <dependencies/>
+    <taskXml>
+      <!-- Project-level groups -->
+      <Permission allow="ViewBuildDefinition, ViewBuilds" identity="[$$PROJECTNAME$$]\Читатели"/>
+      <Permission allow="ViewBuildDefinition, QueueBuilds, ViewBuilds, EditBuildQuality" identity="[$$PROJECTNAME$$]\Участники"/>
+      <Permission allow="ViewBuildDefinition, EditBuildDefinition, DeleteBuildDefinition, QueueBuilds, ManageBuildQueue, StopBuilds, ViewBuilds, EditBuildQuality, RetainIndefinitely, DeleteBuilds, ManageBuildQualities, DestroyBuilds, AdministerBuildPermissions" identity="[$$PROJECTNAME$$]\Администраторы сборки"/>
+      <Permission allow="ViewBuildDefinition, EditBuildDefinition, DeleteBuildDefinition, QueueBuilds, ManageBuildQueue, StopBuilds, ViewBuilds, EditBuildQuality, RetainIndefinitely, DeleteBuilds, ManageBuildQualities, DestroyBuilds, AdministerBuildPermissions" identity="[$$PROJECTNAME$$]\$$PROJECTADMINGROUP$$"/>
+      
+      <!-- Collection-level groups -->
+      <Permission allow="EditBuildQuality, ManageBuildQueue, OverrideBuildCheckInValidation, QueueBuilds, UpdateBuildInformation, ViewBuildDefinition, ViewBuilds" identity="$$PROJECTCOLLECTIONBUILDSERVICESGROUP$$"/>
+      <Permission allow="ViewBuildDefinition, EditBuildDefinition, DeleteBuildDefinition, QueueBuilds, ManageBuildQueue, StopBuilds, ViewBuilds, EditBuildQuality, RetainIndefinitely, DeleteBuilds, ManageBuildQualities, DestroyBuilds, AdministerBuildPermissions" identity="$$PROJECTCOLLECTIONBUILDADMINSGROUP$$"/>
+      <Permission allow="ViewBuildDefinition, EditBuildDefinition, DeleteBuildDefinition, QueueBuilds, ManageBuildQueue, StopBuilds, ViewBuilds, EditBuildQuality, RetainIndefinitely, DeleteBuilds, ManageBuildQualities, DestroyBuilds, AdministerBuildPermissions, OverrideBuildCheckInValidation" identity="$$PROJECTCOLLECTIONADMINGROUP$$"/>
+    </taskXml>
+  </task>
+</tasks>

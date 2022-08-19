@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<tasks>
+  <task id="Site" plugin="Microsoft.ProjectCreationWizard.Reporting" completionMessage="Создан веб-сайт отчетности по проекту.">
+    <dependencies/>
+    <taskXml>
+      <ReportingServices>
+        <site></site>
+      </ReportingServices>
+    </taskXml>
+  </task>
+  <task id="Populate Reports" plugin="Microsoft.ProjectCreationWizard.Reporting" completionMessage="Отчеты по проекту отправлены.">
+    <dependencies>
+      <dependency taskId="Site"/>
+    </dependencies>
+    <taskXml>
+      <ReportingServices>
+        <folders>
+          <folder path="Ошибки"/>
+          <folder path="Сборки"/>
+          <folder path="Управление проектами"/>
+          <folder path="Тесты"/>
+          <folder path="Цифровые панели"/>
+        </folders>
+        <reports>
+          <report name="Состояние ошибки" filename="Reports\Bug Status.rdl" folder="Ошибки" cacheExpiration="30">
+            <parameters>
+              <parameter name="ExplicitProject" value=""/>
+            </parameters>
+            <datasources>
+              <reference name="/Tfs2010OlapReportDS" dsname="TfsOlapReportDS"/>
+              <reference name="/Tfs2010ReportDS" dsname="TfsReportDS"/>
+            </datasources>
+          </report>
+          <report name="Тенденции ошибок" filename="Reports\Bug Trends.rdl" folder="Ошибки" cacheExpiration="30">
+            <parameters>
+              <parameter name="ExplicitProject" value=""/>
+            </parameters>
+            <datasources>
+              <reference name="/Tfs2010OlapReportDS" dsname="TfsOlapReportDS"/>
+              <reference name="/Tfs2010ReportDS" dsname="TfsReportDS"/>
+            </datasources>
+          </report>
+          <report name="Реактивации" filename="Reports\Reactivations.rdl" folder="Ошибки" cacheExpiration="30">
+            <parameters>
+              <parameter name="ExplicitProject" value=""/>
+            </parameters>
+            <datasources>
+              <reference name="/Tfs2010OlapReportDS" dsname="TfsOlapReportDS"/>
+              <reference name="/Tfs2010ReportDS" dsname="TfsReportDS"/>
+            </datasources>
+          </report>
+          <report name="Индикаторы качества сборки" filename="Reports\Build Quality Indicators.rdl" folder="Сборки" cacheExpiration="30">
+            <parameters>
+              <parameter name="ExplicitProject" value=""/>
+            </parameters>
+            <datasources>
+              <reference name="/Tfs2010OlapReportDS" dsname="TfsOlapReportDS"/>
+              <reference name="/Tfs2010ReportDS" dsname="TfsReportDS"/>
+            </datasources>
+          </report>
+          <report name="Успех сборки за период времени" filename="Reports\Build Success over Time.rdl" folder="Сборки" cacheExpiration="30">
+            <parameters>
+              <parameter name="ExplicitProject" value=""/>
+            </parameters>
+            <datasources>
+              <reference name="/Tfs2010ReportDS" dsname="TfsReportDS"/>
+            </datasources>
+          </report>
+          <report name="Сводка сборки" filename="Reports\Build Summary.rdl" folder="Сборки" cacheExpiration="30">
+            <parameters>
+              <parameter name="ExplicitProject" value=""/>
+            </parameters>
+            <datasources>
+              <reference name="/Tfs2010ReportDS" dsname="TfsReportDS"/>
+            </datasources>
+          </report>
+          <report name="Сгорание и темп работ" filename="Reports\Burndown and Burn Rate.rdl" folder="Управление проектами" cacheExpiration="30">
+            <parameters>
+              <parameter name="ExplicitProject" value=""/>
+            </parameters>
+            <datasources>
+              <reference name="/Tfs2010OlapReportDS" dsname="TfsOlapReportDS"/>
+              <reference name="/Tfs2010ReportDS" dsname="TfsReportDS"/>
+            </datasources>
+          </report>
+          <report name="Оставшаяся работа" filename="Reports\Remaining Work.rdl" folder="Управление проектами" cacheExpiration="30">
+            <parameters>
+              <parameter name="ExplicitProject" value=""/>
+            </parameters>
+            <datasources>
+              <reference name="/Tfs2010OlapReportDS" dsname="TfsOlapReportDS"/>
+              <reference name="/Tfs2010ReportDS" dsname="TfsReportDS"/>
+            </datasources>
+          </report>
+          <report name="Незапланированная работа" filename="Reports\Unplanned Work.rdl" folder="Управление проектами" cacheExpiration="30">
+            <parameters>
+              <parameter name="ExplicitProject" value=""/>
+            </parameters>
+            <datasources>
+              <reference name="/Tfs2010OlapReportDS" dsname="TfsOlapReportDS"/>
+              <reference name="/Tfs2010ReportDS" dsname="TfsReportDS"/>
+            </datasources>
+          </report>
+          <report name="Оставшаяся работа" filename="Reports\Remaining Work - Dashboard.rdl" folder="Цифровые панели" cacheExpiration="30">
+            <parameters>
+              <parameter name="ExplicitProject" value=""/>
+            </parameters>
+            <datasources>
+              <reference name="/Tfs2010OlapReportDS" dsname="TfsOlapReportDS"/>
+              <reference name="/Tfs2010ReportDS" dsname="TfsReportDS"/>
+            </datasources>
+          </report>
+          <report name="Состояние всех итераций" filename="Reports\Status on All Iterations.rdl" folder="Управление проектами" cacheExpiration="30">
+            <parameters>
+              <parameter name="ExplicitProject" value=""/>
+            </parameters>
+            <datasources>
+              <reference name="/Tfs2010ReportDS" dsname="TfsReportDS"/>
+            </datasources>
+          </report>
+          <report name="Обзор требований" filename="Reports\Requirements Overview.rdl" folder="Управление проектами" cacheExpiration="30">
+            <parameters>
+              <parameter name="ExplicitProject" value=""/>
+            </parameters>
+            <datasources>
+              <reference name="/Tfs2010ReportDS" dsname="TfsReportDS"/>
+            </datasources>
+          </report>
+          <report name="Ход реализации требований" filename="Reports\Requirements Progress.rdl" folder="Управление проектами" cacheExpiration="30">
+            <parameters>
+              <parameter name="ExplicitProject" value=""/>
+            </parameters>
+            <datasources>
+              <reference name="/Tfs2010ReportDS" dsname="TfsReportDS"/>
+            </datasources>
+          </report>
+          <report name="Готовность тестовых случаев" filename="Reports\Test Case Readiness.rdl" folder="Тесты" cacheExpiration="30">
+            <parameters>
+              <parameter name="ExplicitProject" value=""/>
+            </parameters>
+            <datasources>
+              <reference name="/Tfs2010OlapReportDS" dsname="TfsOlapReportDS"/>
+              <reference name="/Tfs2010ReportDS" dsname="TfsReportDS"/>
+            </datasources>
+          </report>
+          <report name="Ход выполнения плана тестиров." filename="Reports\Test Plan Progress.rdl" folder="Тесты" cacheExpiration="30">
+            <parameters>
+              <parameter name="ExplicitProject" value=""/>
+            </parameters>
+            <datasources>
+              <reference name="/Tfs2010OlapReportDS" dsname="TfsOlapReportDS"/>
+              <reference name="/Tfs2010ReportDS" dsname="TfsReportDS"/>
+            </datasources>
+          </report>
+        </reports>
+      </ReportingServices>
+    </taskXml>
+  </task>
+</tasks>

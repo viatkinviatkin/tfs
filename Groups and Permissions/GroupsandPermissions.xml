@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<tasks>
+  <task id="GroupCreation1" name="Создать группы и разрешения" plugin="Microsoft.ProjectCreationWizard.Groups" completionMessage="Созданы группы и разрешения.">
+    <taskXml>
+      <groups>
+        <group name="@defaultTeam">
+          <permissions>
+            <permission name="GENERIC_READ" class="PROJECT" allow="true"/>
+          </permissions>
+          <members>
+            <member name="@creator"/>
+          </members>
+          <teamSettings areaPath="Область">
+            <iterationPaths backlogPath="Итерация">
+              <iterationPath path="Итерация 0"/>
+              <iterationPath path="Итерация 1"/>
+              <iterationPath path="Итерация 2"/>
+            </iterationPaths>
+          </teamSettings>
+        </group>
+        <group name="Читатели" description="Члены этой группы имеют доступ к командному проекту.">
+          <permissions>
+            <permission name="GENERIC_READ" class="PROJECT" allow="true"/>
+            <permission name="VIEW_TEST_RESULTS" class="PROJECT" allow="true"/>
+            <permission name="GENERIC_READ" class="CSS_NODE" allow="true"/>
+            <permission name="WORK_ITEM_READ" class="CSS_NODE" allow="true"/>
+          </permissions>
+        </group>
+        <group name="Участники" description="Члены этой группы могут добавлять, изменять и удалять позиции в командном проекте.">
+          <permissions>
+            <permission name="GENERIC_READ" class="PROJECT" allow="true"/>
+            <permission name="DELETE_TEST_RESULTS" class="PROJECT" allow="true"/>
+            <permission name="PUBLISH_TEST_RESULTS" class="PROJECT" allow="true"/>
+            <permission name="VIEW_TEST_RESULTS" class="PROJECT" allow="true"/>
+            <permission name="GENERIC_READ" class="CSS_NODE" allow="true"/>
+            <permission name="WORK_ITEM_READ" class="CSS_NODE" allow="true"/>
+            <permission name="WORK_ITEM_WRITE" class="CSS_NODE" allow="true"/>
+            <permission name="MANAGE_TEST_PLANS" class="CSS_NODE" allow="true"/>
+            <permission name="MANAGE_TEST_SUITES" class="CSS_NODE" allow="true"/>
+            <permission name="MANAGE_TEST_ENVIRONMENTS" class="PROJECT" allow="true"/>
+            <permission name="MANAGE_TEST_CONFIGURATIONS" class="PROJECT" allow="true"/>
+            <permission name="WORK_ITEM_DELETE" class="PROJECT" allow="true"/>
+          </permissions>
+          <members>
+            <member name="@defaultTeam"/>
+          </members>
+        </group>
+        <group name="Администраторы сборки" description="Члены этой группы могут добавлять, изменять и удалять определения сборки и управлять завершенными и ожидающими сборками.">
+          <permissions>
+            <permission name="GENERIC_READ" class="PROJECT" allow="true"/>
+            <permission name="DELETE_TEST_RESULTS" class="PROJECT" allow="true"/>
+            <permission name="PUBLISH_TEST_RESULTS" class="PROJECT" allow="true"/>
+            <permission name="VIEW_TEST_RESULTS" class="PROJECT" allow="true"/>
+            <permission name="GENERIC_READ" class="CSS_NODE" allow="true"/>
+            <permission name="WORK_ITEM_READ" class="CSS_NODE" allow="true"/>
+            <permission name="WORK_ITEM_WRITE" class="CSS_NODE" allow="true"/>
+            <permission name="MANAGE_TEST_PLANS" class="CSS_NODE" allow="true"/>
+            <permission name="MANAGE_TEST_SUITES" class="CSS_NODE" allow="true"/>
+            <permission name="MANAGE_TEST_ENVIRONMENTS" class="PROJECT" allow="true"/>
+            <permission name="MANAGE_TEST_CONFIGURATIONS" class="PROJECT" allow="true"/>
+          </permissions>
+        </group>
+      </groups>
+    </taskXml>
+  </task>
+</tasks>
