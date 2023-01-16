@@ -336,6 +336,16 @@
             </FIELD>
           </FIELDS>
         </STATE>
+        <STATE value="Проверка ПР">
+          <FIELDS>
+            <FIELD refname="IIS.Tester">
+              <ALLOWEXISTINGVALUE />
+              <EMPTY />
+            </FIELD>
+          </FIELDS>
+        </STATE>
+        <STATE value="Установка на хаб" />
+        <STATE value="Установка на тест" />
       </STATES>
       <TRANSITIONS>
         <TRANSITION from="" to="Предложено">
@@ -495,6 +505,41 @@
         <TRANSITION from="Закрыто" to="Предложено">
           <REASONS>
             <DEFAULTREASON value="Реактивирование" />
+          </REASONS>
+        </TRANSITION>
+        <TRANSITION from="В работе" to="Проверка ПР">
+          <REASONS>
+            <DEFAULTREASON value="Проверка ПР" />
+          </REASONS>
+        </TRANSITION>
+        <TRANSITION from="Проверка ПР" to="Выполнено">
+          <REASONS>
+            <DEFAULTREASON value="Проверен ПР" />
+          </REASONS>
+        </TRANSITION>
+        <TRANSITION from="Выполнено" to="Установка на хаб">
+          <REASONS>
+            <DEFAULTREASON value="Установка на хаб" />
+          </REASONS>
+        </TRANSITION>
+        <TRANSITION from="Установка на хаб" to="Установка на тест">
+          <REASONS>
+            <DEFAULTREASON value="Установка на тест" />
+          </REASONS>
+        </TRANSITION>
+        <TRANSITION from="Установка на тест" to="Закрыто">
+          <REASONS>
+            <DEFAULTREASON value="Установлено на тест" />
+          </REASONS>
+        </TRANSITION>
+        <TRANSITION from="Установка на хаб" to="Закрыто">
+          <REASONS>
+            <DEFAULTREASON value="Установлено на хаб" />
+          </REASONS>
+        </TRANSITION>
+        <TRANSITION from="Выполнено" to="Установка на тест">
+          <REASONS>
+            <DEFAULTREASON value="Установка на тест" />
           </REASONS>
         </TRANSITION>
       </TRANSITIONS>
@@ -703,8 +748,7 @@
             <Group Label="Разработка">
               <Control Type="LinksControl" Name="Development">
                 <LinksControlOptions ViewMode="List" ZeroDataExperience="Development" ShowCallToAction="true">
-                  <ListViewOptions GroupLinks="false">
-                  </ListViewOptions>
+                  <ListViewOptions GroupLinks="false"></ListViewOptions>
                   <LinkFilters>
                     <ExternalLinkFilter Type="Build" />
                     <ExternalLinkFilter Type="Integrated in build" />
